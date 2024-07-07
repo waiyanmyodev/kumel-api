@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model SmsLog {
+  sms_log_id           Int       @id @default(autoincrement())
+  pcode     String?
+  msisdn Int?
+  date_time DateTime? @default(now())
+  sms_code Int
+  sent_status String?
+  @@map("sms_log")
+}
+
+model CdrLog {
+  cdr_log_id              Int       @id             @default(autoincrement())
+  pcode                   String    @db.Char(45)
+  offer_code              String    @db.Char(45)
+  msisdn                  String    @db.Char(45)
+  fees                    String    @db.Char(45)
+  date_time               DateTime? @default(now())
+  status                  String    @db.Char(45)
+  cdr_response_code       String    @db.Char(45)
+  s_id                    String    @db.Char(45)
+  @@map("cdr_log")
+}
+
+
+
+model Subscribe {
+  s_id                Int       @id             @default(autoincrement())
+  pcode_id            Int       
+  pcode               String    @db.Char(45)
+  offer_code          String    @db.Char(45)
+  msisdn              String    @db.Char(45)
+  request_datetime    DateTime? @default(now()) 
+  offer_language      String    @db.Char(45)  @default("2,3")
+  language            String    @db.Char(45)  @default("2")
+  extra               String    @db.Char(45)  @default("")
+  charging_type       String    @db.Char(45)  @default("")
+  initial_lifecycle   String    @db.Char(45)  @default("")
+  initial_datetime    String    @db.Char(45)  @default("")
+  renew_status        String    @db.Char(45)  @default("")
+  renew_datetime      String    @db.Char(45)  @default("")
+  deactivate_status   String    @db.Char(45)  @default("")
+  deactivate_datetime DateTime? @default(now())
+  statusCode          String    @db.Char(45)  @default("")
+  clientTransId       String    @db.Char(45)  @default("")
+  billingID           String    @db.Char(45)  @default("")
+  channelID           String    @db.Char(45)  @default("")
+  @@map("subscribe")
+}
+
+
+model Product { 
+  pcode_id          Int       @id             @default(autoincrement())
+  on_code           String    @db.Char(45)    @default("GER ON")
+  off_code          String    @db.Char(45)    @default("GER OFF")
+  offer_code        String    @db.Char(45)    @default("BO_GER")
+  language          String    @db.Char(45)    @default("1")
+  initial_price     String    @db.Char(45)    @default("300")
+  renew_price       String    @db.Char(45)    @default("300")
+  code_status       String    @db.Char(45)    @default("on")
+  product_id        Int       @default(17)
+  @@map("product_code")
+}
