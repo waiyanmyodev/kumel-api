@@ -149,9 +149,9 @@ export class InactiveAdminUserException extends ForbiddenException {
   }
 }
 
-export class FailLoginException extends BadRequestException {
+export class FailedLoginException extends BadRequestException {
   constructor() {
-    super(GENERAL_RESPONSE.FAILED_LOGIN)
+    super(GENERAL_RESPONSE.FAILED_LOGIN);
   }
 }
 
