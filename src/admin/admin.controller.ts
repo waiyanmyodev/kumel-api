@@ -1,9 +1,13 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { AdminLoginDto } from "./dto/admin-login.dto";
 import { AdminAuthService } from "./auth.service";
 import { Public } from "src/common/src/decorator/pubic.decorator";
 import { Response } from "express";
+import { User } from "src/common/src/decorator/current-user.decorator";
+import { AdminType } from "./type/admin.type";
+import { AdminDto } from "./dto/admin.dto";
+import { plainToClass } from "class-transformer";
 
 @Controller("admin")
 export class AdminController {
@@ -19,5 +23,10 @@ export class AdminController {
     @Res({ passthrough: true }) response: Response
   ) {
     return this.adminAuthService.login(adminLoginDto, response);
+  }
+
+  @Get("profile")
+  profile(@User() user: AdminType) {
+    return plainToClass(AdminDto, user);
   }
 }
