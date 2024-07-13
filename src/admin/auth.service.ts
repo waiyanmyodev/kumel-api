@@ -2,11 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { AdminLoginDto } from "./dto/admin-login.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { FailedLoginException } from "src/common/src/exception/general-exception";
-import { compareSync, hash } from "bcrypt";
+import { compareSync } from "bcrypt";
 import { JwtPayload, TokenEnum } from "./type/jwtPayload.type";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 import { AuthenticationToken } from "./type/authencationToken.type";
+import { Response } from "express";
 @Injectable()
 export class AdminAuthService {
   constructor(
@@ -15,7 +16,7 @@ export class AdminAuthService {
     private readonly configService: ConfigService
   ) {}
 
-  async login(adminLoginDto: AdminLoginDto) {
+  async login(adminLoginDto: AdminLoginDto, response: Response) {
     const { username, password } = adminLoginDto;
     const admin = await this.prisma.admin.findUnique({
       where: {
@@ -25,7 +26,7 @@ export class AdminAuthService {
     if (!admin || !compareSync(password, admin.password)) {
       throw new FailedLoginException();
     }
-    const [at, rt] = await Promise.all([
+    const [access_token, refresh_token] = await Promise.all([
       this.generateToken(
         {
           username: admin.username,
@@ -43,7 +44,12 @@ export class AdminAuthService {
       ),
     ]);
 
-    return { access_token: at, refresh_token: rt, type: "Bearer" };
+    response.cookie("Authentication", access_token, {
+      secure: true,
+      httpOnly: true,
+    });
+
+    return { access_token, refresh_token };
   }
 
   async refresh(userId: number, rt: string): Promise<AuthenticationToken> {
