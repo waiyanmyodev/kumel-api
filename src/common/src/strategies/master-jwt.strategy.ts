@@ -3,12 +3,15 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { ConfigService } from "@nestjs/config";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JWT_ACCESS_SECRET_KEY } from "src/constants/constants";
-import JwtPayload from "../types";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Request } from "express";
+import JwtPayload from "../types";
 
 @Injectable()
-export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
+export class masterJwtStrategy extends PassportStrategy(
+  Strategy,
+  "master-jwt"
+) {
   constructor(
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService
@@ -23,15 +26,15 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
   }
 
   async validate(payload: JwtPayload) {
-    const admin = await this.prisma.admin.findFirst({
+    const master = await this.prisma.master.findFirst({
       where: {
         username: payload.username,
       },
     });
-    if (!admin) {
+    if (!master) {
       throw new UnauthorizedException();
     }
 
-    return admin;
+    return master;
   }
 }
