@@ -1,43 +1,42 @@
 import { Injectable } from "@nestjs/common";
-import { AdminLoginDto } from "./dto/admin-login.dto";
+import { MasterLoginDto } from "./dto/master-login.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { FailedLoginException } from "src/common/src/exception/general-exception";
 import { compareSync } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
-import { AuthenticationToken } from "./type/authencationToken.type";
 import { Response } from "express";
-import { JwtPayload, TokenEnum } from "./type/jwtPayload.type";
-
+import { AuthenticationToken } from "src/admin/type/authencationToken.type";
+import { JwtPayload, TokenEnum } from "src/admin/type/jwtPayload.type";
 @Injectable()
-export class AdminAuthService {
+export class MasterAuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwt: JwtService,
     private readonly configService: ConfigService
   ) {}
 
-  async login(adminLoginDto: AdminLoginDto, response: Response) {
-    const { username, password } = adminLoginDto;
-    const admin = await this.prisma.admin.findUnique({
+  async login(masterLoginDto: MasterLoginDto, response: Response) {
+    const { username, password } = masterLoginDto;
+    const master = await this.prisma.master.findUnique({
       where: {
         username: username,
       },
     });
-    if (!admin || !compareSync(password, admin.password)) {
+    if (!master || !compareSync(password, master.password)) {
       throw new FailedLoginException();
     }
     const [access_token, refresh_token] = await Promise.all([
       this.generateToken(
         {
-          username: admin.username,
+          username: master.username,
           token_type: TokenEnum.ACCESS,
         },
         this.configService.get("JWT_ACCESS_SECRET")
       ),
       this.generateToken(
         {
-          username: admin.username,
+          username: master.username,
           token_type: TokenEnum.REFRESH,
         },
         this.configService.get("JWT_REFRESH_SECRET"),
@@ -54,7 +53,7 @@ export class AdminAuthService {
   }
 
   async refresh(userId: number, rt: string): Promise<AuthenticationToken> {
-    const admin = await this.prisma.admin.findUnique({
+    const master = await this.prisma.master.findUnique({
       where: {
         id: userId,
       },
@@ -62,7 +61,7 @@ export class AdminAuthService {
 
     const at = await this.generateToken(
       {
-        username: admin.username,
+        username: master.username,
         token_type: TokenEnum.ACCESS,
       },
       this.configService.get("JWT_ACCESS_SECRET")

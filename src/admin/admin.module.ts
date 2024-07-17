@@ -8,8 +8,7 @@ import { JwtModule, JwtService } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { AdminJwtStrategy } from "../common/src/strategies/admin-jwt.strategy";
 import { MasterModule } from "./master/master.module";
-import { APP_GUARD } from "@nestjs/core";
-import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
+import { MasterJwtStrategy } from "src/common/src/strategies/master-jwt.strategy";
 @Module({
   imports: [PassportModule, JwtModule.register({}), MasterModule],
   controllers: [AdminController],
@@ -20,11 +19,8 @@ import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
     ConfigService,
     JwtService,
     AdminJwtStrategy,
-    {
-      provide: APP_GUARD,
-      useClass: AdminJwtAuthGuard,
-    },
+    MasterJwtStrategy,
   ],
-  exports: [AdminJwtStrategy, AdminModule],
+  exports: [AdminJwtStrategy, MasterJwtStrategy, AdminModule],
 })
 export class AdminModule {}

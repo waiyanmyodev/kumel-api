@@ -4,6 +4,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerBehindProxyGuard } from './common/src/guards/throttler-behind-proxy.guard';
 import { AdminModule } from "./admin/admin.module";
+import { MasterModule } from './master/master.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AdminModule } from "./admin/admin.module";
       },
     ]),
     AdminModule,
+    MasterModule,
   ],
   controllers: [],
   providers: [

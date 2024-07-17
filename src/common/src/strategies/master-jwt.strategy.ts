@@ -8,7 +8,7 @@ import { Request } from "express";
 import JwtPayload from "../types";
 
 @Injectable()
-export class masterJwtStrategy extends PassportStrategy(
+export class MasterJwtStrategy extends PassportStrategy(
   Strategy,
   "master-jwt"
 ) {
