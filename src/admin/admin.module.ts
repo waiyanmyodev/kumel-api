@@ -6,10 +6,11 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { JwtStrategy } from "./strategies/jwt.strategy";
-
+import { AdminJwtStrategy } from "../common/src/strategies/admin-jwt.strategy";
+import { MasterModule } from "./master/master.module";
+import { MasterJwtStrategy } from "src/common/src/strategies/master-jwt.strategy";
 @Module({
-  imports: [PassportModule, JwtModule.register({})],
+  imports: [PassportModule, JwtModule.register({}), MasterModule],
   controllers: [AdminController],
   providers: [
     AdminService,
@@ -17,8 +18,9 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
     PrismaService,
     ConfigService,
     JwtService,
-    JwtStrategy,
+    AdminJwtStrategy,
+    MasterJwtStrategy,
   ],
-  exports: [JwtStrategy, AdminModule],
+  exports: [AdminJwtStrategy, MasterJwtStrategy, AdminModule],
 })
 export class AdminModule {}

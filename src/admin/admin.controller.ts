@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Post, Res, UseGuards } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { AdminLoginDto } from "./dto/admin-login.dto";
 import { AdminAuthService } from "./auth.service";
@@ -8,6 +8,7 @@ import { User } from "src/common/src/decorator/current-user.decorator";
 import { AdminType } from "./type/admin.type";
 import { AdminDto } from "./dto/admin.dto";
 import { plainToClass } from "class-transformer";
+import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 
 @Controller("admin")
 export class AdminController {
@@ -25,6 +26,7 @@ export class AdminController {
     return this.adminAuthService.login(adminLoginDto, response);
   }
 
+  @UseGuards(AdminJwtAuthGuard)
   @Get("profile")
   profile(@User() user: AdminType) {
     return plainToClass(AdminDto, user);

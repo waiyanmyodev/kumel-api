@@ -13,6 +13,6 @@ export class IsNotContainConsecutiveSpace implements ValidatorConstraintInterfac
   }
 
   validator(value: string) {
-    console.log("Return data from api")
+    console.log(`Return data from api ${value} `);
   }
 }

@@ -3,12 +3,12 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { ConfigService } from "@nestjs/config";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JWT_ACCESS_SECRET_KEY } from "src/constants/constants";
-import { JwtPayload } from "../type/jwtPayload.type";
+import JwtPayload from "../types";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Request } from "express";
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
+export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
   constructor(
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService

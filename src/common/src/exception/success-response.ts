@@ -1,0 +1,40 @@
+import { GeneralResponseType } from "src/exception/general-types";
+
+export const SUCCESS_RESPONSE: GeneralResponseType = {
+  SUCCESS_CREATE_ADMIN: {
+    status: "SUCCESS_CREATE_ADMIN",
+    message: "Account created successfully",
+  },
+  SUCCESS_UPDATE_ADMIN: {
+    status: "SUCCESS_UPDATE_ADMIN",
+    message: "Updated successfully",
+  },
+  SUCCESS_DELETE_ADMIN: {
+    status: "SUCCESS_DELETE_ADMIN",
+    message: "Account deleted successfully",
+  },
+  SUCCESS_CREATE_ROLE: {
+    status: "SUCCESS_CREATE_ROLE",
+    message: "Role created successfully",
+  },
+  SUCCESS_UPDATE_ROLE: {
+    status: "SUCCESS_UPDATE_ROLE",
+    message: "Updated successfully",
+  },
+  SUCCESS_DELETE_ROLE: {
+    status: "SUCCESS_DELETE_ROLE",
+    message: "Role deleted successfully",
+  },
+  SUCCESS_CREATE_MASTER: {
+    status: "SUCCESS_CREATE_MASTER",
+    message: "Master created successfully",
+  },
+  SUCCESS_UPDATE_MASTER: {
+    status: "SUCCESS_UPDATE_MASTER",
+    message: "Updated successfully",
+  },
+  SUCCESS_DELETE_MASTER: {
+    status: "SUCCESS_DELETE_MASTER",
+    message: "Master deleted successfully",
+  },
+};
