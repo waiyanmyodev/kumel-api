@@ -6,9 +6,10 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { JwtStrategy } from "./strategies/jwt.strategy";
+import { AdminJwtStrategy } from "../common/src/strategies/admin-jwt.strategy";
 import { MasterModule } from "./master/master.module";
-
+import { APP_GUARD } from "@nestjs/core";
+import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 @Module({
   imports: [PassportModule, JwtModule.register({}), MasterModule],
   controllers: [AdminController],
@@ -18,8 +19,12 @@ import { MasterModule } from "./master/master.module";
     PrismaService,
     ConfigService,
     JwtService,
-    JwtStrategy,
+    AdminJwtStrategy,
+    {
+      provide: APP_GUARD,
+      useClass: AdminJwtAuthGuard,
+    },
   ],
-  exports: [JwtStrategy, AdminModule],
+  exports: [AdminJwtStrategy, AdminModule],
 })
 export class AdminModule {}

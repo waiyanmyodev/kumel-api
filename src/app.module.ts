@@ -4,7 +4,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerBehindProxyGuard } from './common/src/guards/throttler-behind-proxy.guard';
 import { AdminModule } from "./admin/admin.module";
-import { JwtAuthGuard } from "./common/src/guards/jwt-auth.guard";
 
 @Module({
   imports: [
@@ -22,10 +21,6 @@ import { JwtAuthGuard } from "./common/src/guards/jwt-auth.guard";
     {
       provide: APP_GUARD,
       useClass: ThrottlerBehindProxyGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
     },
   ],
 })
