@@ -7,23 +7,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin { 
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  password  String   @db.Char(220)
-  masters   Master[]
+model Admin {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  password String   @db.Char(220)
+  masters  Master[]
+  permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
 }
 
 model Master {
-  id          Int     @id @default(autoincrement())
-  adminId     Int
-  masterCode  String  @db.VarChar(5)
-  username    String  @unique
-  password    String
-  avatar      String?
-  remark      String?
+  id         Int     @id @default(autoincrement())
+  adminId    Int
+  masterCode String  @db.VarChar(5)
+  username   String  @unique
+  password   String
+  avatar     String?
+  remark     String?
 
-  admin       Admin   @relation(fields: [adminId], references: [id])
-  @@map("masters")
+  admin Admin @relation(fields: [adminId], references: [id])
+  permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
 }
 
+model Permission {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  PermissionPermissionGroup PermissionPermissionGroup[]
+}
+
+model PermissionGroup {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  description String? @db.Char(255)
+  type        String @db.Char(255)
+
+  PermissionPermissionGroup PermissionPermissionGroup[]
+  AssginPermissionGroup     AssginPermissionGroup[]
+}
+
+model PermissionPermissionGroup {
+  permissionId Int
+  groupId      Int
+
+  permission Permission      @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  group      PermissionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@id([permissionId, groupId])
+}
+
+model AssginPermissionGroup {
+  id          Int    @id @default(autoincrement())
+  groupId     Int
+  relatedId   Int
+  relatedType String
+
+  group PermissionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([groupId, relatedId])
+  Master Master[] @relation("AssginPermissionGroup")
+  Admin Admin[] @relation("AssginPermissionGroup")
+}
