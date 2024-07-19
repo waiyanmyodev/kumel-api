@@ -131,6 +131,22 @@ export const GENERAL_RESPONSE = {
     status: "FAILED_DELETE_MASTER",
     message: "Delete failed",
   },
+  FAILED_CREATE_PERMISSION: {
+    status: "FAILED_CREATE_PERMISSION",
+    message: "Permission create failed",
+  },
+  FAILED_UPDATE_PERMISSION: {
+    status: "FAILED_UPDATE_PERMISSION",
+    message: "Update failed",
+  },
+  PERMISSION_NOT_FOUND: {
+    status: "PERMISSION_NOT_FOUND",
+    message: "Permission not found",
+  },
+  FAILED_DELETE_PERMISSION: {
+    status: "FAILED_DELETE_PERMISSION",
+    message: "Delete failed",
+  },
 };
 
 export class FailedUpdateAdminException extends BadRequestException {
@@ -266,5 +282,29 @@ export class FailUpdateMasterException extends BadRequestException {
 export class FailDeleteMasterException extends BadRequestException {
   constructor() {
     super(GENERAL_RESPONSE.FAILED_DELETE_MASTER);
+  }
+}
+
+export class FailCreatePermissionException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_CREATE_PERMISSION);
+  }
+}
+
+export class FailUpdatePermissionException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_UPDATE_PERMISSION);
+  }
+}
+
+export class FailDeletePermissionException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_DELETE_PERMISSION);
+  }
+}
+
+export class FailToFindPermissionExpection extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.PERMISSION_NOT_FOUND);
   }
 }

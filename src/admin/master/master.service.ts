@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { CreateMasterDto } from "./dto/create-master.dto";
 import { UpdateMasterDto } from "./dto/update-master.dto";
 import { PrismaService } from "src/prisma/prisma.service";
-import { GeneralResponseMessageType } from "src/exception/general-types";
+import { GeneralResponseMessageType } from "src/common/src/exception/general-type";
 import { Master } from "@prisma/client";
 import {
   FailCreateMasterException,
@@ -11,8 +11,7 @@ import {
   FailUpdateMasterException,
   MasterNotFoundException,
 } from "src/common/src/exception/general-exception";
-import { SUCCESS_RESPONSE } from "src/response/success-response";
-
+import { SUCCESS_RESPONSE } from "src/common/src/exception/success-response";
 @Injectable()
 export class MasterService {
   constructor(private readonly prisma: PrismaService) {}
