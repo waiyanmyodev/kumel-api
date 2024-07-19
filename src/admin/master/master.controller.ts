@@ -10,6 +10,9 @@ import {
 import { MasterService } from "./master.service";
 import { CreateMasterDto } from "./dto/create-master.dto";
 import { UpdateMasterDto } from "./dto/update-master.dto";
+import { AssginPermissionGroupDto } from "src/common/src/dto/assgin-permission-group.dto";
+import { Permissions } from "src/common/src/decorator/permissions.decorator";
+import { AllPermissions } from "src/common/src/dto/all-permissions.dto";
 
 @Controller("admin/master")
 export class MasterController {
@@ -20,6 +23,7 @@ export class MasterController {
     return this.masterService.create(createMasterDto);
   }
 
+  @Permissions(AllPermissions.SUPER_ADMIN, AllPermissions.READ_MASTER)
   @Get()
   findAll() {
     return this.masterService.findAll();
@@ -33,6 +37,13 @@ export class MasterController {
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateMasterDto: UpdateMasterDto) {
     return this.masterService.update(+id, updateMasterDto);
+  }
+
+  @Post("assgin-permission")
+  assginPermissionGroup(
+    @Body() assginPermissionGroupDto: AssginPermissionGroupDto
+  ) {
+    return this.masterService.assginPermissionGroup(assginPermissionGroupDto);
   }
 
   @Delete(":id")

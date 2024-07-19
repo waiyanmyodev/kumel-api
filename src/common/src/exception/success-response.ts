@@ -49,4 +49,8 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
     status: "SUCCESS_DELETE_PERMISSION",
     message: "Permission deleted successfully",
   },
+  SUCCESS_ASSGINED_PERMISSION_GROUP: {
+    status: "SUCCESS_ASSGINED_PERMISSION_GROUP",
+    message: "Permission group assgin successfully",
+  },
 };

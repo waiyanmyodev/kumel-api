@@ -163,6 +163,10 @@ export const GENERAL_RESPONSE = {
     status: "FAILED_DELETE_PERMISSION_GROUP",
     message: "Delete failed",
   },
+  FAILED_ASSGIN_PERMISSION_GROUP: {
+    status: "FAILED_ASSGIN_PERMISSION_GROUP",
+    message: "Assgin permission group failed",
+  },
 };
 
 export class FailedUpdateAdminException extends BadRequestException {
@@ -346,5 +350,11 @@ export class FailDeletePermissionGroupException extends BadRequestException {
 export class FailToFindPermissionGroupExpection extends BadRequestException {
   constructor() {
     super(GENERAL_RESPONSE.PERMISSION_GROUP_NOT_FOUND);
+  }
+}
+
+export class FailToAssginPermissionGroupExpection extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_ASSGIN_PERMISSION_GROUP);
   }
 }

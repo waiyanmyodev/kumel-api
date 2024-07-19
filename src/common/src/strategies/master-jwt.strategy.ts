@@ -30,11 +30,37 @@ export class MasterJwtStrategy extends PassportStrategy(
       where: {
         username: payload.username,
       },
+      include: {
+        permissions: {
+          where: {
+            relatedType: "Master",
+          },
+          include: {
+            group: {
+              include: {
+                permissions: {
+                  include: { permission: true },
+                },
+              },
+            },
+          },
+        },
+      },
     });
     if (!master) {
       throw new UnauthorizedException();
     }
 
-    return master;
+    const transformedPermissions = master.permissions.flatMap((permission) =>
+      permission.group.permissions.map(
+        (groupPermission) => groupPermission.permission
+      )
+    );
+
+    return {
+      ...master,
+      permissions: transformedPermissions,
+    };
+
   }
 }
