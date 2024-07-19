@@ -2,17 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { CreateMasterDto } from "./dto/create-master.dto";
 import { UpdateMasterDto } from "./dto/update-master.dto";
 import { PrismaService } from "src/prisma/prisma.service";
-import { GeneralResponseMessageType } from "src/exception/general-types";
+import { GeneralResponseMessageType } from "src/common/src/exception/general-type";
 import { Master } from "@prisma/client";
 import {
   FailCreateMasterException,
   FailDeleteMasterException,
   FailedToGetMasterByDateExpection,
+  FailToAssginPermissionGroupExpection,
   FailUpdateMasterException,
   MasterNotFoundException,
 } from "src/common/src/exception/general-exception";
-import { SUCCESS_RESPONSE } from "src/response/success-response";
-
+import { SUCCESS_RESPONSE } from "src/common/src/exception/success-response";
+import { AssginPermissionGroupDto } from "src/common/src/dto/assgin-permission-group.dto";
 @Injectable()
 export class MasterService {
   constructor(private readonly prisma: PrismaService) {}
@@ -67,6 +68,27 @@ export class MasterService {
       return SUCCESS_RESPONSE.SUCCESS_SMS_LOG_DELETE;
     } catch (error) {
       throw new FailDeleteMasterException();
+    }
+  }
+
+  async assginPermissionGroup(assginPermissionDto: AssginPermissionGroupDto) {
+    try {
+      const { masterId, permissionGroups } = assginPermissionDto;
+      await this.prisma.master.update({
+        where: { id: masterId },
+        data: {
+          permissions: {
+            create: permissionGroups.map((row) => ({
+              group: { connect: { id: row.permissionGroupId } },
+              relatedId: masterId,
+              relatedType: "Master",
+            })),
+          },
+        },
+      });
+      return SUCCESS_RESPONSE.SUCCESS_ASSGINED_PERMISSION_GROUP;
+    } catch (error) {
+      throw new FailToAssginPermissionGroupExpection();
     }
   }
 }

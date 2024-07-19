@@ -1,4 +1,4 @@
-import { GeneralResponseType } from "src/exception/general-types";
+import { GeneralResponseType } from "./general-type";
 
 export const SUCCESS_RESPONSE: GeneralResponseType = {
   SUCCESS_CREATE_ADMIN: {
@@ -36,5 +36,21 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
   SUCCESS_DELETE_MASTER: {
     status: "SUCCESS_DELETE_MASTER",
     message: "Master deleted successfully",
+  },
+  SUCCESS_CREATE_PERMISSION: {
+    status: "SUCCESS_CREATE_PERMISSION",
+    message: "Permission created successfully",
+  },
+  SUCCESS_UPDATE_PERMISSION: {
+    status: "SUCCESS_UPDATE_PERMISSION",
+    message: "Updated successfully",
+  },
+  SUCCESS_DELETE_PERMISSION: {
+    status: "SUCCESS_DELETE_PERMISSION",
+    message: "Permission deleted successfully",
+  },
+  SUCCESS_ASSGINED_PERMISSION_GROUP: {
+    status: "SUCCESS_ASSGINED_PERMISSION_GROUP",
+    message: "Permission group assgin successfully",
   },
 };

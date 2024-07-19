@@ -27,6 +27,9 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
       where: {
         username: payload.username,
       },
+      include: {
+        permissions: true,
+      },
     });
     if (!admin) {
       throw new UnauthorizedException();
