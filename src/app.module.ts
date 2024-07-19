@@ -6,6 +6,7 @@ import { ThrottlerBehindProxyGuard } from './common/src/guards/throttler-behind-
 import { AdminModule } from "./admin/admin.module";
 import { MasterModule } from './master/master.module';
 import { PermissionModule } from "./authorization/permission/permission.module";
+import { PermissionGroupModule } from "./authorization/permission-group/permission-group.module";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PermissionModule } from "./authorization/permission/permission.module";
     AdminModule,
     MasterModule,
     PermissionModule,
+    PermissionGroupModule,
   ],
   controllers: [],
   providers: [
