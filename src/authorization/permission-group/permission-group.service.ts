@@ -21,7 +21,17 @@ export class PermissionGroupService {
     createPermissionDto: CreatePermissionGroupDto
   ): Promise<GeneralResponseMessageType> {
     try {
-      await this.prisma.permissionGroup.create({ data: createPermissionDto });
+      const { name, description, type, permissions } = createPermissionDto;
+      await this.prisma.permissionGroup.create({
+        data: {
+          name: name,
+          description: description,
+          type: type,
+          permissions: {
+            create: permissions,
+          },
+        },
+      });
       return SUCCESS_RESPONSE.SUCCESS_CREATE_PERMISSION;
     } catch (error) {
       throw new FailCreatePermissionGroupException();
@@ -83,11 +93,18 @@ export class PermissionGroupService {
     updatePermissionDto: UpdatePermissionGroupDto
   ): Promise<GeneralResponseMessageType> {
     try {
-      const { name } = updatePermissionDto;
+      const { name, type, description, permissions } = updatePermissionDto;
       const permission = <PermissionGroup>(
         await this.prisma.permissionGroup.update({
           where: { id: Number(id) },
-          data: { name },
+          data: {
+            name: name,
+            description: description,
+            type: type,
+            permissions: {
+              create: permissions,
+            },
+          },
         })
       );
       if (!permission) {
@@ -95,6 +112,7 @@ export class PermissionGroupService {
       }
       return SUCCESS_RESPONSE.SUCCESS_UPDATE_PERMISSION;
     } catch (error) {
+      console.log(error);
       throw new FailUpdatePermissionGroupException();
     }
   }

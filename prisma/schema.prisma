@@ -32,7 +32,7 @@ model Permission {
   id   Int    @id @default(autoincrement())
   name String
 
-  PermissionPermissionGroup PermissionPermissionGroup[]
+  permission_group PermissionGroupPermission[]
 }
 
 model PermissionGroup {
@@ -41,11 +41,11 @@ model PermissionGroup {
   description String? @db.Char(255)
   type        String @db.Char(255)
 
-  PermissionPermissionGroup PermissionPermissionGroup[]
+  permissions PermissionGroupPermission[]
   AssginPermissionGroup     AssginPermissionGroup[]
 }
 
-model PermissionPermissionGroup {
+model PermissionGroupPermission {
   permissionId Int
   groupId      Int
 
