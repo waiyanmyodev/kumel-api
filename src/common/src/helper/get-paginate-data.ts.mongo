@@ -1,0 +1,66 @@
+import PaginateType from '../entities/paginate-type'
+import { DEFAULT_PAGINATION_LIMIT, DEFAULT_TOTAL_PAGE, FIRST_PAGE } from '../../../../src/constants'
+import { HttpStatus } from '@nestjs/common'
+import { ClassConstructor } from 'class-transformer'
+import { parseEntities } from './parseEntity'
+
+const calculatePageNumber = (skip: number, limit: number, total: number) => {
+  const page = Math.floor(skip / limit) + FIRST_PAGE
+  const totalPage = Math.ceil(total / limit)
+
+  return {
+    totalPage,
+    page
+  }
+}
+
+export const getPaginateData = async <T, U>(
+  cls: ClassConstructor<U>,
+  model: TModelType<T>,
+  query: MongoQueryModel
+): Promise<PaginateType<U>> => {
+  const { filter, select, sort, populate, limit, skip } = query
+  let deleted: boolean | undefined
+  if (typeof filter?.deleted === 'boolean') {
+    deleted = filter.deleted
+  } else {
+    deleted = undefined
+  }
+  delete filter?.deleted
+  const getData = model
+    .find()
+    .deleted(deleted)
+    .select(select)
+    .collation({ locale: 'en' })
+    .sort(sort)
+    .populate(populate as any)
+  const total = await model
+    .find()
+    .deleted(deleted)
+    .countDocuments(<T>filter)
+
+  const result: PaginateType<U> = {
+    status: HttpStatus[HttpStatus.OK],
+    data: {
+      total,
+      totalPage: DEFAULT_TOTAL_PAGE,
+      limit: DEFAULT_PAGINATION_LIMIT,
+      page: FIRST_PAGE,
+      data: []
+    }
+  }
+  
+
+  if (limit) {
+    getData.limit(limit).skip(skip)
+
+    const { totalPage, page } = calculatePageNumber(skip, limit, total)
+
+    result.data.totalPage = totalPage
+    result.data.limit = limit
+    result.data.page = page
+  }
+
+  result.data.data = parseEntities<U, T>((await getData) as Document<T>[], cls)
+  return result
+}
