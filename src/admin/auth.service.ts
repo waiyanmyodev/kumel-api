@@ -8,7 +8,8 @@ import { ConfigService } from "@nestjs/config";
 import { AuthenticationToken } from "./type/authencationToken.type";
 import { Response } from "express";
 import { JwtPayload, TokenEnum } from "./type/jwtPayload.type";
-
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+@ApiTags("Admin Auth")
 @Injectable()
 export class AdminAuthService {
   constructor(
@@ -17,6 +18,8 @@ export class AdminAuthService {
     private readonly configService: ConfigService
   ) {}
 
+  @ApiOperation({ summary: "Get example data" })
+  @ApiResponse({ status: 200, description: "Successful response" })
   async login(adminLoginDto: AdminLoginDto, response: Response) {
     const { username, password } = adminLoginDto;
     const admin = await this.prisma.admin.findUnique({
