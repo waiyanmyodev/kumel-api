@@ -15,7 +15,10 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => request.cookies.Authentication,
+        (request: Request) => {
+          console.log(request.cookies.Authentication);
+          return request.cookies.Authentication;
+        },
       ]),
       ignoreExpiration: false,
       secretOrKey: configService.get(JWT_ACCESS_SECRET_KEY),
@@ -23,6 +26,7 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
   }
 
   async validate(payload: JwtPayload) {
+    console.log(payload);
     const admin = await this.prisma.admin.findFirst({
       where: {
         username: payload.username,

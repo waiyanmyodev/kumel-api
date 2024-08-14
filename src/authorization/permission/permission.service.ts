@@ -12,7 +12,8 @@ import {
   FailToFindPermissionExpection,
   FailUpdatePermissionException,
 } from "src/common/src/exception/general-exception";
-
+import { ApiCookieAuth } from "@nestjs/swagger";
+@ApiCookieAuth("Authentication")
 @Injectable()
 export class PermissionService {
   constructor(private readonly prisma: PrismaService) {}
