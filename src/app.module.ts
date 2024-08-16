@@ -7,6 +7,7 @@ import { AdminModule } from "./admin/admin.module";
 import { MasterModule } from './master/master.module';
 import { PermissionModule } from "./authorization/permission/permission.module";
 import { PermissionGroupModule } from "./authorization/permission-group/permission-group.module";
+import { AgentModule } from './agent/agent.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PermissionGroupModule } from "./authorization/permission-group/permissi
     MasterModule,
     PermissionModule,
     PermissionGroupModule,
+    AgentModule,
   ],
   controllers: [],
   providers: [

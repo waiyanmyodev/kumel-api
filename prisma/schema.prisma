@@ -26,7 +26,7 @@ model Master {
 
   admin       Admin                   @relation(fields: [adminId], references: [id])
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
-  agents Agent[]
+  agents      Agent[]
 }
 
 model Agent {
@@ -39,7 +39,7 @@ model Agent {
   avatar     String?
   remark     String?
 
-  master       Master                   @relation(fields: [masterId], references: [id])
+  master      Master                  @relation(fields: [masterId], references: [id])
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
 }
 
@@ -79,7 +79,7 @@ model AssginPermissionGroup {
   group  PermissionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
   Master Master[]        @relation("AssginPermissionGroup")
   Admin  Admin[]         @relation("AssginPermissionGroup")
+  Agent  Agent[]         @relation("AssginPermissionGroup")
 
   @@index([groupId, relatedId])
-  Agent Agent[] @relation("AssginPermissionGroup")
 }
