@@ -131,6 +131,26 @@ export const GENERAL_RESPONSE = {
     status: "FAILED_DELETE_MASTER",
     message: "Delete failed",
   },
+  FAILED_TO_GET_AGENTS: {
+    status: "FAILED_TO_GET_MASTERS",
+    message: "Failed get masters!",
+  },
+  FAILED_CREATE_AGENT: {
+    status: "FAILED_CREATE_AGENT",
+    message: "Account create failed",
+  },
+  FAILED_UPDATE_AGENT: {
+    status: "FAILED_UPDATE_AGENT",
+    message: "Update failed",
+  },
+  AGENT_NOT_FOUND: {
+    status: "AGENT_NOT_FOUND",
+    message: "Agent account not found",
+  },
+  FAILED_DELETE_AGENT: {
+    status: "FAILED_DELETE_AGENT",
+    message: "Delete failed",
+  },
   FAILED_CREATE_PERMISSION: {
     status: "FAILED_CREATE_PERMISSION",
     message: "Permission create failed",
@@ -356,5 +376,34 @@ export class FailToFindPermissionGroupExpection extends BadRequestException {
 export class FailToAssginPermissionGroupExpection extends BadRequestException {
   constructor() {
     super(GENERAL_RESPONSE.FAILED_ASSGIN_PERMISSION_GROUP);
+  }
+}
+
+export class FailCreateAgentException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_CREATE_AGENT);
+  }
+}
+
+export class AgentNotFoundException extends NotFoundException {
+  constructor() {
+    super(GENERAL_RESPONSE.AGENT_NOT_FOUND);
+  }
+}
+export class FailedToGetAgentByDateExpection extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_TO_GET_AGENTS);
+  }
+}
+
+export class FailUpdateAgentException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_UPDATE_AGENT);
+  }
+}
+
+export class FailDeleteAgentException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_DELETE_AGENT);
   }
 }
