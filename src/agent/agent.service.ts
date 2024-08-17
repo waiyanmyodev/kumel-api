@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Agent } from "@prisma/client";
-import { AssginPermissionGroupToAgentDto } from "src/common/src/dto/assgin-permission-group-to-agent.dto";
 import {
   AgentNotFoundException,
   FailCreateAgentException,
@@ -15,6 +14,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { CreateAgentDto } from "./dto/create-agent.dto";
 import { hash } from "bcrypt";
 import { UpdateAgentDto } from "./dto/update-agent.dto";
+import { AssginPermissionGroupDto } from "src/common/src/dto/assgin-permission-group.dto";
 
 @Injectable()
 export class AgentService {
@@ -83,18 +83,16 @@ export class AgentService {
     }
   }
 
-  async assginPermissionGroup(
-    assginPermissionDto: AssginPermissionGroupToAgentDto
-  ) {
+  async assginPermissionGroup(assginPermissionDto: AssginPermissionGroupDto) {
     try {
-      const { agentId, permissionGroups } = assginPermissionDto;
+      const { userId, permissionGroups } = assginPermissionDto;
       await this.prisma.agent.update({
-        where: { id: agentId },
+        where: { id: userId },
         data: {
           permissions: {
             create: permissionGroups.map((row) => ({
               group: { connect: { id: row.permissionGroupId } },
-              relatedId: agentId,
+              relatedId: userId,
               relatedType: "Agent",
             })),
           },
