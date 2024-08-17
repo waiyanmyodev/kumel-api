@@ -13,8 +13,8 @@ import { GeneralResponseMessageType } from "src/common/src/exception/general-typ
 import { SUCCESS_RESPONSE } from "src/common/src/exception/success-response";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateAgentDto } from "./dto/create-agent.dto";
-import { UpdateMasterDto } from "src/admin/master/dto/update-master.dto";
 import { hash } from "bcrypt";
+import { UpdateAgentDto } from "./dto/update-agent.dto";
 
 @Injectable()
 export class AgentService {
@@ -57,12 +57,16 @@ export class AgentService {
 
   async update(
     id: number,
-    updateMasterDto: UpdateMasterDto
+    updateAgentDto: UpdateAgentDto
   ): Promise<GeneralResponseMessageType> {
     try {
+      const updatedAgent = updateAgentDto;
+      if (updatedAgent.password) {
+        updatedAgent.password = await hash(updatedAgent.password, 10);
+      }
       await this.prisma.agent.update({
         where: { id: Number(id) },
-        data: updateMasterDto,
+        data: updateAgentDto,
       });
       return SUCCESS_RESPONSE.SUCCESS_UPDATE_AGENT;
     } catch (error) {
