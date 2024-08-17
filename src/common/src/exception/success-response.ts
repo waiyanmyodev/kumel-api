@@ -53,4 +53,16 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
     status: "SUCCESS_ASSGINED_PERMISSION_GROUP",
     message: "Permission group assgin successfully",
   },
+  SUCCESS_CREATE_AGENT: {
+    status: "SUCCESS_CREATE_AGENT",
+    message: "Agent created successfully",
+  },
+  SUCCESS_UPDATE_AGENT: {
+    status: "SUCCESS_UPDATE_AGENT",
+    message: "Updated successfully",
+  },
+  SUCCESS_DELETE_AGENT: {
+    status: "SUCCESS_DELETE_AGENT",
+    message: "Agent deleted successfully",
+  },
 };
