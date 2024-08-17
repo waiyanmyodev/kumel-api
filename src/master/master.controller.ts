@@ -1,5 +1,4 @@
 import { Controller, Get, Post, Body, Res, UseGuards } from "@nestjs/common";
-import { MasterService } from "./master.service";
 import { MasterAuthService } from "./auth.service";
 import { Public } from "src/common/src/decorator/pubic.decorator";
 import { MasterLoginDto } from "./dto/master-login.dto";
@@ -12,10 +11,7 @@ import { MasterJwtAuthGuard } from "src/common/src/guards/master-jwt-auth.guard"
 
 @Controller("master")
 export class MasterController {
-  constructor(
-    private readonly masterService: MasterService,
-    private readonly masterAuthService: MasterAuthService
-  ) {}
+  constructor(private readonly masterAuthService: MasterAuthService) {}
 
   @Public()
   @Post("auth/login")
