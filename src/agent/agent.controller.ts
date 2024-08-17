@@ -21,7 +21,7 @@ import { AgentType } from "./type/agent.type";
 import { AgentJwtAuthGuard } from "src/common/src/guards/agent-jwt-auth.guard";
 import { CreateAgentDto } from "./dto/create-agent.dto";
 import { UpdateAgentDto } from "./dto/update-agent.dto";
-import { AssginPermissionGroupToAgentDto } from "src/common/src/dto/assgin-permission-group-to-agent.dto";
+import { AssginPermissionGroupDto } from "src/common/src/dto/assgin-permission-group.dto";
 
 @Controller("agent")
 export class AgentController {
@@ -67,7 +67,7 @@ export class AgentController {
 
   @Post("assgin-permission")
   assginPermissionGroup(
-    @Body() assginPermissionGroupDto: AssginPermissionGroupToAgentDto
+    @Body() assginPermissionGroupDto: AssginPermissionGroupDto
   ) {
     return this.agentService.assginPermissionGroup(assginPermissionGroupDto);
   }

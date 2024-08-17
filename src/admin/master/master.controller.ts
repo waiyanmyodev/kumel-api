@@ -11,9 +11,6 @@ import { MasterService } from "./master.service";
 import { CreateMasterDto } from "./dto/create-master.dto";
 import { UpdateMasterDto } from "./dto/update-master.dto";
 import { AssginPermissionGroupDto } from "src/common/src/dto/assgin-permission-group.dto";
-import { Permissions } from "src/common/src/decorator/permissions.decorator";
-import { AllPermissions } from "src/common/src/dto/all-permissions.dto";
-
 @Controller("admin/master")
 export class MasterController {
   constructor(private readonly masterService: MasterService) {}
@@ -23,7 +20,6 @@ export class MasterController {
     return this.masterService.create(createMasterDto);
   }
 
-  @Permissions(AllPermissions.SUPER_ADMIN, AllPermissions.READ_MASTER)
   @Get()
   findAll() {
     return this.masterService.findAll();
