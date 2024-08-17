@@ -9,14 +9,14 @@ export class AdminService {
   constructor(private readonly prisma: PrismaService) {}
   async assginPermissionGroup(assginPermissionDto: AssginPermissionGroupDto) {
     try {
-      const { masterId, permissionGroups } = assginPermissionDto;
+      const { userId, permissionGroups } = assginPermissionDto;
       await this.prisma.master.update({
-        where: { id: masterId },
+        where: { id: userId },
         data: {
           permissions: {
             create: permissionGroups.map((row) => ({
               group: { connect: { id: row.permissionGroupId } },
-              relatedId: masterId,
+              relatedId: userId,
               relatedType: "Admin",
             })),
           },

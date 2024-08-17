@@ -14,6 +14,7 @@ import {
 } from "src/common/src/exception/general-exception";
 import { SUCCESS_RESPONSE } from "src/common/src/exception/success-response";
 import { AssginPermissionGroupDto } from "src/common/src/dto/assgin-permission-group.dto";
+import { hash } from "bcrypt";
 @Injectable()
 export class MasterService {
   constructor(private readonly prisma: PrismaService) {}
@@ -30,7 +31,10 @@ export class MasterService {
     createMasterDto: CreateMasterDto
   ): Promise<GeneralResponseMessageType> {
     try {
-      await this.prisma.master.create({ data: createMasterDto });
+      const password = await hash(createMasterDto.password, 10);
+      await this.prisma.master.create({
+        data: { ...createMasterDto, password: password },
+      });
       return SUCCESS_RESPONSE.SUCCESS_CREATE_MASTER;
     } catch (error) {
       throw new FailCreateMasterException();
@@ -52,9 +56,13 @@ export class MasterService {
     updateMasterDto: UpdateMasterDto
   ): Promise<GeneralResponseMessageType> {
     try {
+      const updatedMaster = { ...updateMasterDto };
+      if (updatedMaster.password) {
+        updatedMaster.password = await hash(updateMasterDto.password, 10);
+      }
       await this.prisma.master.update({
         where: { id: Number(id) },
-        data: updateMasterDto,
+        data: updatedMaster,
       });
       return SUCCESS_RESPONSE.SUCCESS_UPDATE_MASTER;
     } catch (error) {
@@ -65,7 +73,7 @@ export class MasterService {
   async remove(id: number): Promise<GeneralResponseMessageType> {
     try {
       await this.prisma.master.delete({ where: { id: Number(id) } });
-      return SUCCESS_RESPONSE.SUCCESS_SMS_LOG_DELETE;
+      return SUCCESS_RESPONSE.SUCCESS_DELETE_MASTER;
     } catch (error) {
       throw new FailDeleteMasterException();
     }
@@ -73,14 +81,14 @@ export class MasterService {
 
   async assginPermissionGroup(assginPermissionDto: AssginPermissionGroupDto) {
     try {
-      const { masterId, permissionGroups } = assginPermissionDto;
+      const { userId, permissionGroups } = assginPermissionDto;
       await this.prisma.master.update({
-        where: { id: masterId },
+        where: { id: userId },
         data: {
           permissions: {
             create: permissionGroups.map((row) => ({
               group: { connect: { id: row.permissionGroupId } },
-              relatedId: masterId,
+              relatedId: userId,
               relatedType: "Master",
             })),
           },

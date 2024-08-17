@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { Agent } from "@prisma/client";
-import { AssginPermissionGroupToAgentDto } from "src/common/src/dto/assgin-permission-group-to-agent.dto";
 import {
   AgentNotFoundException,
   FailCreateAgentException,
@@ -13,8 +12,9 @@ import { GeneralResponseMessageType } from "src/common/src/exception/general-typ
 import { SUCCESS_RESPONSE } from "src/common/src/exception/success-response";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateAgentDto } from "./dto/create-agent.dto";
-import { UpdateMasterDto } from "src/admin/master/dto/update-master.dto";
 import { hash } from "bcrypt";
+import { UpdateAgentDto } from "./dto/update-agent.dto";
+import { AssginPermissionGroupDto } from "src/common/src/dto/assgin-permission-group.dto";
 
 @Injectable()
 export class AgentService {
@@ -57,12 +57,16 @@ export class AgentService {
 
   async update(
     id: number,
-    updateMasterDto: UpdateMasterDto
+    updateAgentDto: UpdateAgentDto
   ): Promise<GeneralResponseMessageType> {
     try {
+      const updatedAgent = updateAgentDto;
+      if (updatedAgent.password) {
+        updatedAgent.password = await hash(updatedAgent.password, 10);
+      }
       await this.prisma.agent.update({
         where: { id: Number(id) },
-        data: updateMasterDto,
+        data: updateAgentDto,
       });
       return SUCCESS_RESPONSE.SUCCESS_UPDATE_AGENT;
     } catch (error) {
@@ -79,18 +83,16 @@ export class AgentService {
     }
   }
 
-  async assginPermissionGroup(
-    assginPermissionDto: AssginPermissionGroupToAgentDto
-  ) {
+  async assginPermissionGroup(assginPermissionDto: AssginPermissionGroupDto) {
     try {
-      const { agentId, permissionGroups } = assginPermissionDto;
+      const { userId, permissionGroups } = assginPermissionDto;
       await this.prisma.agent.update({
-        where: { id: agentId },
+        where: { id: userId },
         data: {
           permissions: {
             create: permissionGroups.map((row) => ({
               group: { connect: { id: row.permissionGroupId } },
-              relatedId: agentId,
+              relatedId: userId,
               relatedType: "Agent",
             })),
           },

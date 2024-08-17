@@ -6,8 +6,8 @@ interface PermissionGroupType {
   permissionGroupId: number;
 }
 export class AssginPermissionGroupDto {
-  @IsNotEmpty({ message: "Master Id is required" })
-  masterId: number;
+  @IsNotEmpty({ message: "User Id is required" })
+  userId: number;
 
   @IsArray()
   @ArrayNotEmpty()

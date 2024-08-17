@@ -15,10 +15,7 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (request: Request) => {
-          console.log(request.cookies.Authentication);
-          return request.cookies.Authentication;
-        },
+        (request: Request) => request.cookies.Authentication,
       ]),
       ignoreExpiration: false,
       secretOrKey: configService.get(JWT_ACCESS_SECRET_KEY),
