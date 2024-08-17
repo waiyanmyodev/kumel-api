@@ -73,7 +73,7 @@ export class MasterService {
   async remove(id: number): Promise<GeneralResponseMessageType> {
     try {
       await this.prisma.master.delete({ where: { id: Number(id) } });
-      return SUCCESS_RESPONSE.SUCCESS_SMS_LOG_DELETE;
+      return SUCCESS_RESPONSE.SUCCESS_DELETE_MASTER;
     } catch (error) {
       throw new FailDeleteMasterException();
     }
