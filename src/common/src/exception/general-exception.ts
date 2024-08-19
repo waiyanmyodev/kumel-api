@@ -187,6 +187,22 @@ export const GENERAL_RESPONSE = {
     status: "FAILED_ASSGIN_PERMISSION_GROUP",
     message: "Assgin permission group failed",
   },
+  FAILED_CREATE_TEAM: {
+    status: "FAILED_CREATE_TEAM",
+    message: "Team create failed",
+  },
+  FAILED_UPDATE_TEAM: {
+    status: "FAILED_UPDATE_TEAM",
+    message: "Update failed",
+  },
+  TEAM_NOT_FOUND: {
+    status: "TEAM_NOT_FOUND",
+    message: "Team not found",
+  },
+  FAILED_DELETE_TEAM: {
+    status: "FAILED_DELETE_TEAM",
+    message: "Delete failed",
+  },
 };
 
 export class FailedUpdateAdminException extends BadRequestException {
@@ -407,3 +423,27 @@ export class FailDeleteAgentException extends BadRequestException {
     super(GENERAL_RESPONSE.FAILED_DELETE_AGENT);
   }
 }
+
+export class FailToFindTeamExpection extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.TEAM_NOT_FOUND);
+  }
+}
+export class FailCreateTeamException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_CREATE_TEAM);
+  }
+}
+
+export class FailUpdateTeamException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_UPDATE_TEAM);
+  }
+}
+
+export class FailDeleteTeamException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_DELETE_TEAM);
+  }
+}
+

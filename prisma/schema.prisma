@@ -89,6 +89,7 @@ model AssginPermissionGroup {
 model Team {
   id          Int    @id @default(autoincrement())
   name        String
+  imgPath    String 
   relatedId   Int
   relatedType String
 

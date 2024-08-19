@@ -45,6 +45,15 @@ export class MasterJwtStrategy extends PassportStrategy(
             },
           },
         },
+        agents: {
+          select: {
+            id: true,
+            username: true,
+            isLocked: true,
+            remark: true,
+            avatar: true,
+          },
+        },
       },
     });
     if (!master) {
@@ -60,6 +69,7 @@ export class MasterJwtStrategy extends PassportStrategy(
     return {
       ...master,
       permissions: transformedPermissions,
+      type: "Master",
     };
 
   }
