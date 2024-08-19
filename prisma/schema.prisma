@@ -27,6 +27,7 @@ model Master {
   admin       Admin                   @relation(fields: [adminId], references: [id])
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
   agents      Agent[]
+  teams Team[] @relation("Team")
 }
 
 model Agent {
@@ -41,6 +42,7 @@ model Agent {
 
   master      Master                  @relation(fields: [masterId], references: [id])
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
+  teams Team[] @relation("Team")
 }
 
 model Permission {
@@ -82,4 +84,16 @@ model AssginPermissionGroup {
   Agent  Agent[]         @relation("AssginPermissionGroup")
 
   @@index([groupId, relatedId])
+}
+
+model Team {
+  id          Int    @id @default(autoincrement())
+  name        String
+  relatedId   Int
+  relatedType String
+
+  Master Master[]        @relation("Team")
+  Agent  Agent[]         @relation("Team")
+
+  @@index([ relatedId])
 }
