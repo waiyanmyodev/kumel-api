@@ -29,13 +29,36 @@ export class AgentJwtStrategy extends PassportStrategy(Strategy, "agent-jwt") {
         username: payload.username,
       },
       include: {
-        permissions: true,
+        permissions: {
+          where: {
+            relatedType: "Agent",
+          },
+          include: {
+            group: {
+              include: {
+                permissions: {
+                  include: { permission: true },
+                },
+              },
+            },
+          },
+        },
+        master: true,
       },
     });
     if (!agent) {
       throw new UnauthorizedException();
     }
+    const transformedPermissions = agent.permissions.flatMap((permission) =>
+      permission.group.permissions.map(
+        (groupPermission) => groupPermission.permission
+      )
+    );
 
-    return agent;
+    return {
+      ...agent,
+      permissions: transformedPermissions,
+      type: "Agent",
+    };
   }
 }

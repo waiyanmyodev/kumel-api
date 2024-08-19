@@ -23,19 +23,41 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, "admin-jwt") {
   }
 
   async validate(payload: JwtPayload) {
-    console.log(payload);
     const admin = await this.prisma.admin.findFirst({
       where: {
         username: payload.username,
       },
       include: {
-        permissions: true,
+        permissions: {
+          where: {
+            relatedType: "Admin",
+          },
+          include: {
+            group: {
+              include: {
+                permissions: {
+                  include: { permission: true },
+                },
+              },
+            },
+          },
+        },
       },
     });
     if (!admin) {
       throw new UnauthorizedException();
     }
 
-    return admin;
+    const transformedPermissions = admin.permissions.flatMap((permission) =>
+      permission.group.permissions.map(
+        (groupPermission) => groupPermission.permission
+      )
+    );
+
+    return {
+      ...admin,
+      permissions: transformedPermissions,
+      type: "Admin",
+    };
   }
 }
