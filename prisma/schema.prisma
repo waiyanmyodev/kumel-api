@@ -43,6 +43,18 @@ model Agent {
   master      Master                  @relation(fields: [masterId], references: [id])
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
   teams Team[] @relation("Team")
+
+  User User[]
+}
+
+model User { 
+  id Int @id @default(autoincrement())
+  agentId Int
+  username String
+  name String
+  remark String? 
+
+  agent Agent @relation(fields: [agentId],references: [id])
 }
 
 model Permission {

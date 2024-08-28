@@ -71,4 +71,8 @@ export const GENERAL_RESPONSE = {
     status: "PERMISSION_NOT_FOUND",
     message: "Permission not found",
   },
+  USER_NOT_FOUND: {
+    status: "USER_NOT_FOUND",
+    message: "User not found",
+  },
 };
