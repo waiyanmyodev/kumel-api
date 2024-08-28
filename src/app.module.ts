@@ -9,6 +9,7 @@ import { PermissionModule } from "./authorization/permission/permission.module";
 import { PermissionGroupModule } from "./authorization/permission-group/permission-group.module";
 import { AgentModule } from './agent/agent.module';
 import { TeamModule } from './team/team.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TeamModule } from './team/team.module';
     PermissionGroupModule,
     AgentModule,
     TeamModule,
+    UserModule,
   ],
   controllers: [],
   providers: [
