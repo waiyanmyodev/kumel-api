@@ -45,7 +45,7 @@ export class MasterAuthService {
     ]);
 
     response.cookie("Authentication", access_token, {
-      secure: true,
+      secure: this.configService.get("PRODUCTION") == "true" ? true : false,
       httpOnly: true,
     });
 

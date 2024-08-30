@@ -49,7 +49,7 @@ export class AgentAuthService {
     ]);
 
     response.cookie("AgentAuthentication", access_token, {
-      secure: true,
+      secure: this.configService.get("PRODUCTION") == "true" ? true : false,
       httpOnly: true,
     });
 

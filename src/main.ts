@@ -13,12 +13,6 @@ async function bootstrap() {
     .setTitle("API Documentation")
     .setDescription("The API description")
     .setVersion("1.0")
-    .addBearerAuth()
-    .addCookieAuth("Authentication", {
-      type: "apiKey",
-      in: "cookie",
-      description: "JWT token stored in the Authentication cookie",
-    })
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);
