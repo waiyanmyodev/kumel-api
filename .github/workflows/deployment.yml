@@ -1,0 +1,73 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - development
+      - main
+    
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push the tagged docker image 
+        id: build-image
+        env:
+          REPO: ${{ secrets.DOCKER_HUB_REPO }}  
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: |
+          IMAGE_TAG="api-$BRANCH_NAME" 
+          docker build -t $REPO:$IMAGE_TAG .
+          docker push $REPO:$IMAGE_TAG
+
+########################
+## Only Dev & Staging ##
+########################
+
+  deploy_to_dev:
+    name: deploy_to_dev
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/development' 
+    steps:
+      - name: Deploy to Development
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.DEV_SERVER_IP }}
+          username: ${{ secrets.DEV_SERVER_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE_KEY }}
+          command_timeout: 30m
+          script: |
+            cd /home/dev/devops/mm-net
+            bash deploy.sh
+
+########################
+## Only Production ##
+########################
+
+  deploy_to_prod:
+    name: deploy_to_prod
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/production' 
+    steps:
+      - name: Deploy to Production
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.PROD_SERVER_IP }}
+          username: ${{ secrets.PROD_SERVER_USER }}
+          key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+          command_timeout: 30m
+          script: |
+            cd /home/dev/devops/mm-net
+            bash prod-deploy.sh
