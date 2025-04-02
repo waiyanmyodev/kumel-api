@@ -4,6 +4,7 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { GeneralResponseMessageType } from "src/common/src/exception/general-type";
 import { PrismaService } from "src/prisma/prisma.service";
 import { User } from "@prisma/client";
+import { hash } from 'bcrypt';
 import {
   FailCreateUserException,
   FailDeleteUserException,
@@ -24,13 +25,17 @@ export class UserService {
     }
   }
 
-  async create(
-    createMasterDto: CreateUserDto
-  ): Promise<GeneralResponseMessageType> {
+  async create(createMasterDto: CreateUserDto): Promise<GeneralResponseMessageType> {
     try {
+      const hashedPassword = await hash(createMasterDto.password, 10); 
+      
       await this.prisma.user.create({
-        data: createMasterDto,
+        data: {
+          ...createMasterDto,  
+          password: hashedPassword,  
+        },
       });
+  
       return SUCCESS_RESPONSE.SUCCESS_CREATE_USER;
     } catch (error) {
       throw new FailCreateUserException();

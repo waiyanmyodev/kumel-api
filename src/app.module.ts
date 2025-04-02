@@ -10,6 +10,8 @@ import { PermissionGroupModule } from "./authorization/permission-group/permissi
 import { AgentModule } from './agent/agent.module';
 import { TeamModule } from './team/team.module';
 import { UserModule } from './user/user.module';
+import { UserAuthService } from './user/auth.service';
+import { PrismaModule } from './prisma/prisma.module'; 
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { UserModule } from './user/user.module';
         limit: 60,
       },
     ]),
+    PrismaModule,
     AdminModule,
     MasterModule,
     PermissionModule,
@@ -35,6 +38,7 @@ import { UserModule } from './user/user.module';
       useClass: ThrottlerBehindProxyGuard,
     },
     ConfigService,
+    UserAuthService
   ],
 })
 export class AppModule {}

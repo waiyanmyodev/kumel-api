@@ -51,8 +51,11 @@ model User {
   id Int @id @default(autoincrement())
   agentId Int
   username String
+  password   String
   name String
   remark String? 
+
+  permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
 
   agent Agent @relation(fields: [agentId],references: [id])
 }
@@ -94,6 +97,7 @@ model AssginPermissionGroup {
   Master Master[]        @relation("AssginPermissionGroup")
   Admin  Admin[]         @relation("AssginPermissionGroup")
   Agent  Agent[]         @relation("AssginPermissionGroup")
+  User  User[]         @relation("AssginPermissionGroup")
 
   @@index([groupId, relatedId])
 }
