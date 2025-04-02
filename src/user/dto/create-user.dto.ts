@@ -6,9 +6,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty({
     example: "1",
-    description: "Agent id for user.",
+    description: "team id !",
   })
-  agentId: number;
+  teamId: number;
 
   @IsString()
   @IsNotEmpty()
@@ -22,7 +22,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @ApiProperty({
     example: "password123",
-    description: "Password for master.",
+    description: "Password for user.",
   })
   password: string;
 

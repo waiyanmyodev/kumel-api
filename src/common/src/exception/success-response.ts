@@ -25,18 +25,6 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
     status: "SUCCESS_DELETE_ROLE",
     message: "Role deleted successfully",
   },
-  SUCCESS_CREATE_MASTER: {
-    status: "SUCCESS_CREATE_MASTER",
-    message: "Master created successfully",
-  },
-  SUCCESS_UPDATE_MASTER: {
-    status: "SUCCESS_UPDATE_MASTER",
-    message: "Updated successfully",
-  },
-  SUCCESS_DELETE_MASTER: {
-    status: "SUCCESS_DELETE_MASTER",
-    message: "Master deleted successfully",
-  },
   SUCCESS_CREATE_PERMISSION: {
     status: "SUCCESS_CREATE_PERMISSION",
     message: "Permission created successfully",
@@ -52,22 +40,6 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
   SUCCESS_ASSGINED_PERMISSION_GROUP: {
     status: "SUCCESS_ASSGINED_PERMISSION_GROUP",
     message: "Permission group assgin successfully",
-  },
-  SUCCESS_CREATE_AGENT: {
-    status: "SUCCESS_CREATE_AGENT",
-    message: "Agent created successfully",
-  },
-  SUCCESS_UPDATE_AGENT: {
-    status: "SUCCESS_UPDATE_AGENT",
-    message: "Updated successfully",
-  },
-  SUCCESS_DELETE_AGENT: {
-    status: "SUCCESS_DELETE_AGENT",
-    message: "Agent deleted successfully",
-  },
-  SUCCESS_CREATE_TEAM: {
-    status: "SUCCESS_CREATE_TEAM",
-    message: "Team created successfully",
   },
   SUCCESS_UPDATE_TEAM: {
     status: "SUCCESS_UPDATE_TEAM",

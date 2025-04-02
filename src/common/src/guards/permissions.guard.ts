@@ -29,7 +29,6 @@ export class PermissionsGuard
       [context.getHandler(), context.getClass()]
     );
     const { user } = context.switchToHttp().getRequest();
-    console.log(user);
     if (!requiredPermissions) {
       return true;
     }

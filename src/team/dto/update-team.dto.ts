@@ -24,6 +24,4 @@ export class UpdateTeam {
   name: string;
   imgPath: string;
   townshipId: string;
-  relatedId?: string;
-  relatedType?: string;
 }
