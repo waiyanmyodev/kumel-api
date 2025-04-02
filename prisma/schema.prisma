@@ -27,7 +27,7 @@ model Master {
   admin       Admin                   @relation(fields: [adminId], references: [id])
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
   agents      Agent[]
-  teams Team[] @relation("Team")
+  teams       Team[]                  @relation("Team")
 }
 
 model Agent {
@@ -42,22 +42,22 @@ model Agent {
 
   master      Master                  @relation(fields: [masterId], references: [id])
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
-  teams Team[] @relation("Team")
+  teams       Team[]                  @relation("Team")
 
   User User[]
 }
 
-model User { 
-  id Int @id @default(autoincrement())
-  agentId Int
+model User {
+  id       Int     @id @default(autoincrement())
+  agentId  Int
   username String
-  password   String
-  name String
-  remark String? 
+  password String
+  name     String
+  remark   String?
 
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
 
-  agent Agent @relation(fields: [agentId],references: [id])
+  agent Agent @relation(fields: [agentId], references: [id])
 }
 
 model Permission {
@@ -97,7 +97,7 @@ model AssginPermissionGroup {
   Master Master[]        @relation("AssginPermissionGroup")
   Admin  Admin[]         @relation("AssginPermissionGroup")
   Agent  Agent[]         @relation("AssginPermissionGroup")
-  User  User[]         @relation("AssginPermissionGroup")
+  User   User[]          @relation("AssginPermissionGroup")
 
   @@index([groupId, relatedId])
 }
@@ -105,12 +105,26 @@ model AssginPermissionGroup {
 model Team {
   id          Int    @id @default(autoincrement())
   name        String
-  imgPath    String 
+  imgPath     String
   relatedId   Int
   relatedType String
 
-  Master Master[]        @relation("Team")
-  Agent  Agent[]         @relation("Team")
+  Master Master[] @relation("Team")
+  Agent  Agent[]  @relation("Team")
 
-  @@index([ relatedId])
+  @@index([relatedId])
+}
+
+model City {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Township Township[]
+}
+
+model Township {
+  id     Int    @id @default(autoincrement())
+  name   String
+  cityId Int
+  city   City   @relation(fields: [cityId], references: [id])
 }
