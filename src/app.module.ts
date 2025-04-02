@@ -4,10 +4,8 @@ import { ThrottlerModule } from "@nestjs/throttler";
 import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerBehindProxyGuard } from "./common/src/guards/throttler-behind-proxy.guard";
 import { AdminModule } from "./admin/admin.module";
-import { MasterModule } from "./master/master.module";
 import { PermissionModule } from "./authorization/permission/permission.module";
 import { PermissionGroupModule } from "./authorization/permission-group/permission-group.module";
-import { AgentModule } from "./agent/agent.module";
 import { TeamModule } from "./team/team.module";
 import { UserModule } from "./user/user.module";
 import { CityModule } from "./city/city.module";
@@ -27,10 +25,8 @@ import { PrismaModule } from "./prisma/prisma.module";
     ]),
     PrismaModule,
     AdminModule,
-    MasterModule,
     PermissionModule,
     PermissionGroupModule,
-    AgentModule,
     TeamModule,
     UserModule,
     CityModule,

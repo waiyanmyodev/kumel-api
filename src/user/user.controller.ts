@@ -6,23 +6,22 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
-  Res
+  Res,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserLoginDto } from "./dto/user-login.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { AuthUserGuard } from "src/common/src/guards/auth-user.guard";
 import { UserAuthService } from "./auth.service";
 import { Public } from "src/common/src/decorator/pubic.decorator";
 import { Response } from "express";
 
-@UseGuards(AuthUserGuard)
 @Controller("user")
 export class UserController {
-  constructor(private readonly userService: UserService,
-      private readonly userAuthService: UserAuthService) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly userAuthService: UserAuthService
+  ) {}
 
   @Public()
   @Post("auth/login")

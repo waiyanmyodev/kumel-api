@@ -11,53 +11,18 @@ model Admin {
   id          Int                     @id @default(autoincrement())
   username    String                  @unique
   password    String                  @db.Char(220)
-  masters     Master[]
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
-}
-
-model Master {
-  id         Int     @id @default(autoincrement())
-  adminId    Int
-  masterCode String  @db.VarChar(5)
-  username   String  @unique
-  password   String
-  avatar     String?
-  remark     String?
-
-  admin       Admin                   @relation(fields: [adminId], references: [id])
-  permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
-  agents      Agent[]
-  teams       Team[]                  @relation("Team")
-}
-
-model Agent {
-  id         Int     @id @default(autoincrement())
-  masterId   Int
-  masterCode String
-  username   String
-  password   String
-  isLocked   Boolean
-  avatar     String?
-  remark     String?
-
-  master      Master                  @relation(fields: [masterId], references: [id])
-  permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
-  teams       Team[]                  @relation("Team")
-
-  User User[]
 }
 
 model User {
   id       Int     @id @default(autoincrement())
-  agentId  Int
+  teamId   Int
   username String
   password String
-  name     String
   remark   String?
 
   permissions AssginPermissionGroup[] @relation("AssginPermissionGroup")
-
-  agent Agent @relation(fields: [agentId], references: [id])
+  team        Team                    @relation(fields: [teamId], references: [id], onDelete: Cascade)
 }
 
 model Permission {
@@ -93,26 +58,19 @@ model AssginPermissionGroup {
   relatedId   Int
   relatedType String
 
-  group  PermissionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  Master Master[]        @relation("AssginPermissionGroup")
-  Admin  Admin[]         @relation("AssginPermissionGroup")
-  Agent  Agent[]         @relation("AssginPermissionGroup")
-  User   User[]          @relation("AssginPermissionGroup")
+  group PermissionGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  Admin Admin[]         @relation("AssginPermissionGroup")
+  User  User[]          @relation("AssginPermissionGroup")
 
   @@index([groupId, relatedId])
 }
 
 model Team {
-  id          Int    @id @default(autoincrement())
-  name        String
-  imgPath     String
-  relatedId   Int
-  relatedType String
+  id      Int    @id @default(autoincrement())
+  name    String
+  imgPath String
 
-  Master Master[] @relation("Team")
-  Agent  Agent[]  @relation("Team")
-
-  @@index([relatedId])
+  User User[]
 }
 
 model City {

@@ -7,10 +7,8 @@ import { ConfigService } from "@nestjs/config";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { AdminJwtStrategy } from "../common/src/strategies/admin-jwt.strategy";
-import { MasterModule } from "./master/master.module";
-import { MasterJwtStrategy } from "src/common/src/strategies/master-jwt.strategy";
 @Module({
-  imports: [PassportModule, JwtModule.register({}), MasterModule],
+  imports: [PassportModule, JwtModule.register({})],
   controllers: [AdminController],
   providers: [
     AdminService,
@@ -19,8 +17,7 @@ import { MasterJwtStrategy } from "src/common/src/strategies/master-jwt.strategy
     ConfigService,
     JwtService,
     AdminJwtStrategy,
-    MasterJwtStrategy,
   ],
-  exports: [AdminJwtStrategy, MasterJwtStrategy, AdminModule],
+  exports: [AdminJwtStrategy, AdminModule],
 })
 export class AdminModule {}
