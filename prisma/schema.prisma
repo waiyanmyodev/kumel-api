@@ -70,7 +70,9 @@ model Team {
   name    String
   imgPath String
 
-  User User[]
+  townshipId Int
+  township   Township? @relation(fields: [townshipId], references: [id])
+  User       User[]
 }
 
 model City {
@@ -85,4 +87,5 @@ model Township {
   name   String
   cityId Int
   city   City   @relation(fields: [cityId], references: [id])
+  Team   Team[]
 }

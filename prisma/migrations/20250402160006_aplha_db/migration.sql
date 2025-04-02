@@ -62,6 +62,7 @@ CREATE TABLE `Team` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `imgPath` VARCHAR(191) NOT NULL,
+    `townshipId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -103,6 +104,9 @@ ALTER TABLE `PermissionGroupPermission` ADD CONSTRAINT `PermissionGroupPermissio
 
 -- AddForeignKey
 ALTER TABLE `AssginPermissionGroup` ADD CONSTRAINT `AssginPermissionGroup_groupId_fkey` FOREIGN KEY (`groupId`) REFERENCES `PermissionGroup`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Team` ADD CONSTRAINT `Team_townshipId_fkey` FOREIGN KEY (`townshipId`) REFERENCES `Township`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Township` ADD CONSTRAINT `Township_cityId_fkey` FOREIGN KEY (`cityId`) REFERENCES `City`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

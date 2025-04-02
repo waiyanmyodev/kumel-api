@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { CreateTeamDto } from "./dto/create-team.dto";
-import { UpdateTeamDto } from "./dto/update-team.dto";
+import { TeamDto } from "./dto/create-team.dto";
+import { UpdateTeam } from "./dto/update-team.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { GeneralResponseMessageType } from "src/common/src/exception/general-type";
 import { SUCCESS_RESPONSE } from "src/common/src/exception/success-response";
@@ -10,7 +10,6 @@ import {
   FailToFindTeamExpection,
   FailUpdateTeamException,
 } from "src/common/src/exception/general-exception";
-import { RelatedUserDto } from "./dto/related-user.dto";
 import { Team } from "@prisma/client";
 
 @Injectable()
@@ -18,18 +17,21 @@ export class TeamService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(
-    createTeamDto: CreateTeamDto,
-    relatedUser: RelatedUserDto
+    createTeamDto: TeamDto
+    //relatedUser: RelatedUserDto
   ): Promise<GeneralResponseMessageType> {
+    //  refactor  later for relatedUser
     try {
       await this.prisma.team.create({
         data: {
           ...createTeamDto,
-          ...relatedUser,
+          imgPath: createTeamDto.imgPath,
+          townshipId: Number(createTeamDto.townshipId),
         },
       });
       return SUCCESS_RESPONSE.SUCCESS_CREATE_TEAM;
     } catch (error) {
+      console.log(error);
       throw new FailCreateTeamException();
     }
   }
@@ -61,17 +63,23 @@ export class TeamService {
 
   async update(
     id: number,
-    updateTeamDto: UpdateTeamDto
+    updateTeamDto: UpdateTeam
   ): Promise<GeneralResponseMessageType | Team> {
     try {
+      const data = {
+        ...updateTeamDto,
+        imgPath: updateTeamDto.imgPath,
+        townshipId: Number(updateTeamDto.townshipId),
+      };
       await this.prisma.team.update({
         where: {
           id: Number(id),
         },
-        data: updateTeamDto,
+        data: data,
       });
       return SUCCESS_RESPONSE.SUCCESS_UPDATE_TEAM;
     } catch (error) {
+      console.log(error);
       throw new FailUpdateTeamException();
     }
   }
