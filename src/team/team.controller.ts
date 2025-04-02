@@ -6,19 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
 } from "@nestjs/common";
 import { TeamService } from "./team.service";
 import { UpdateTeamDto } from "./dto/update-team.dto";
-import { AuthUserGuard } from "src/common/src/guards/auth-user.guard";
 import { User } from "src/common/src/decorator/current-user.decorator";
 import { AuthUserTypeDto } from "src/common/src/dto/user-type.dto";
 import { CreateTeamDto } from "./dto/create-team.dto";
 import { RelatedUserDto } from "./dto/related-user.dto";
-import { MasterDto } from "src/master/dto/master.dto";
-import { AgentDto } from "src/agent/dto/agent.dto";
 
-@UseGuards(AuthUserGuard)
 @Controller("team")
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
@@ -30,12 +25,12 @@ export class TeamController {
   }
 
   @Get()
-  findAll(@User() user: MasterDto | AgentDto) {
+  findAll(@User() user: any) {
     return this.teamService.findAll(user);
   }
 
   @Get(":id")
-  findOne(@User() user: MasterDto | AgentDto, @Param("id") id: string) {
+  findOne(@User() u, @Param("id") id: string) {
     return this.teamService.findOne(user, +id);
   }
 
@@ -43,13 +38,13 @@ export class TeamController {
   update(
     @Param("id") id: string,
     @Body() updateTeamDto: UpdateTeamDto,
-    @User() user: MasterDto | AgentDto
+    @User() user: any
   ) {
     return this.teamService.update(+id, updateTeamDto, user);
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string, @User() user: MasterDto | AgentDto) {
+  remove(@Param("id") id: string, @User() user: any) {
     return this.teamService.remove(+id, user);
   }
 }

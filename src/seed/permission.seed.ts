@@ -56,23 +56,6 @@ export class PermissionSeeder {
       {
         name: "delete-permission-group",
       },
-
-      {
-        name: "read-agent",
-      },
-      {
-        name: "create-agent",
-      },
-      {
-        name: "update-agent",
-      },
-      {
-        name: "delete-agent",
-      },
-      {
-        name: "assgin-agent",
-      },
-
       {
         name: "read-team",
       },
@@ -114,9 +97,6 @@ export class PermissionSeeder {
       },
       {
         name: "read-master-log",
-      },
-      {
-        name: "read-agent-log",
       },
     ];
     await this.prisma.permission.createMany({
