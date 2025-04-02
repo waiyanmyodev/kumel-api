@@ -67,7 +67,7 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
   },
   SUCCESS_CREATE_TEAM: {
     status: "SUCCESS_CREATE_TEAM",
-    message: "Agent created successfully",
+    message: "Team created successfully",
   },
   SUCCESS_UPDATE_TEAM: {
     status: "SUCCESS_UPDATE_TEAM",
@@ -75,7 +75,7 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
   },
   SUCCESS_DELETE_TEAM: {
     status: "SUCCESS_DELETE_TEAM",
-    message: "Agent deleted successfully",
+    message: "Team deleted successfully",
   },
   SUCCESS_CREATE_USER: {
     status: "SUCCESS_CREATE_USER",

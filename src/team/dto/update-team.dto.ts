@@ -14,8 +14,16 @@ export class UpdateTeamDto extends PartialType(CreateTeamDto) {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
-    example: "teams/manu-logo.png",
-    description: "Logo image for team.",
+    example: "1",
+    description: "Township id.",
   })
+  townshipId: string;
+}
+
+export class UpdateTeam {
+  name: string;
   imgPath: string;
+  townshipId: string;
+  relatedId?: string;
+  relatedType?: string;
 }

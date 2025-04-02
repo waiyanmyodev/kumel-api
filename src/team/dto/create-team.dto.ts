@@ -13,8 +13,14 @@ export class CreateTeamDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
-    example: "teams/manu-logo.png",
-    description: "Logo image for team.",
+    example: "1",
+    description: "Township id.",
   })
+  townshipId: string;
+}
+
+export class TeamDto {
+  name: string;
+  townshipId: string;
   imgPath: string;
 }

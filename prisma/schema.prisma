@@ -99,14 +99,15 @@ model AssginPermissionGroup {
 }
 
 model Team {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   imgPath     String
   relatedId   Int
   relatedType String
-
-  Master Master[] @relation("Team")
-  Agent  Agent[]  @relation("Team")
+  townshipId  Int
+  township    Township? @relation(fields: [townshipId], references: [id])
+  Master      Master[]  @relation("Team")
+  Agent       Agent[]   @relation("Team")
 
   @@index([relatedId])
 }
@@ -123,4 +124,5 @@ model Township {
   name   String
   cityId Int
   city   City   @relation(fields: [cityId], references: [id])
+  Team   Team[]
 }
