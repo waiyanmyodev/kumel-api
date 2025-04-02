@@ -1,26 +1,21 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE `Admin` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(191) NOT NULL,
+    `password` CHAR(220) NOT NULL,
 
-  - You are about to drop the `masters` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE `masters` DROP FOREIGN KEY `masters_adminId_fkey`;
-
--- DropTable
-DROP TABLE `masters`;
+    UNIQUE INDEX `Admin_username_key`(`username`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Master` (
+CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `adminId` INTEGER NOT NULL,
-    `masterCode` VARCHAR(5) NOT NULL,
+    `teamId` INTEGER NOT NULL,
     `username` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `avatar` VARCHAR(191) NULL,
     `remark` VARCHAR(191) NULL,
 
-    UNIQUE INDEX `Master_username_key`(`username`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -44,7 +39,7 @@ CREATE TABLE `PermissionGroup` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `PermissionPermissionGroup` (
+CREATE TABLE `PermissionGroupPermission` (
     `permissionId` INTEGER NOT NULL,
     `groupId` INTEGER NOT NULL,
 
@@ -63,6 +58,32 @@ CREATE TABLE `AssginPermissionGroup` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Team` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `imgPath` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `City` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Township` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `cityId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `_AssginPermissionGroup` (
     `A` INTEGER NOT NULL,
     `B` INTEGER NOT NULL,
@@ -72,19 +93,22 @@ CREATE TABLE `_AssginPermissionGroup` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Master` ADD CONSTRAINT `Master_adminId_fkey` FOREIGN KEY (`adminId`) REFERENCES `Admin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `User` ADD CONSTRAINT `User_teamId_fkey` FOREIGN KEY (`teamId`) REFERENCES `Team`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PermissionPermissionGroup` ADD CONSTRAINT `PermissionPermissionGroup_permissionId_fkey` FOREIGN KEY (`permissionId`) REFERENCES `Permission`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `PermissionGroupPermission` ADD CONSTRAINT `PermissionGroupPermission_permissionId_fkey` FOREIGN KEY (`permissionId`) REFERENCES `Permission`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PermissionPermissionGroup` ADD CONSTRAINT `PermissionPermissionGroup_groupId_fkey` FOREIGN KEY (`groupId`) REFERENCES `PermissionGroup`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `PermissionGroupPermission` ADD CONSTRAINT `PermissionGroupPermission_groupId_fkey` FOREIGN KEY (`groupId`) REFERENCES `PermissionGroup`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `AssginPermissionGroup` ADD CONSTRAINT `AssginPermissionGroup_groupId_fkey` FOREIGN KEY (`groupId`) REFERENCES `PermissionGroup`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `Township` ADD CONSTRAINT `Township_cityId_fkey` FOREIGN KEY (`cityId`) REFERENCES `City`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `_AssginPermissionGroup` ADD CONSTRAINT `_AssginPermissionGroup_A_fkey` FOREIGN KEY (`A`) REFERENCES `AssginPermissionGroup`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `_AssginPermissionGroup` ADD CONSTRAINT `_AssginPermissionGroup_B_fkey` FOREIGN KEY (`B`) REFERENCES `Master`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `_AssginPermissionGroup` ADD CONSTRAINT `_AssginPermissionGroup_B_fkey` FOREIGN KEY (`B`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
