@@ -12,6 +12,7 @@ import { TeamModule } from "./team/team.module";
 import { UserModule } from "./user/user.module";
 import { CityModule } from "./city/city.module";
 import { TownshipModule } from "./township/township.module";
+import { EventsGateway } from './events/events.gateway';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { TownshipModule } from "./township/township.module";
       useClass: ThrottlerBehindProxyGuard,
     },
     ConfigService,
+    EventsGateway,
   ],
 })
 export class AppModule {}
