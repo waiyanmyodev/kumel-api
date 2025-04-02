@@ -21,4 +21,4 @@ RUN apk add --no-cache openssl
 WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/ ./
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:prod"]
