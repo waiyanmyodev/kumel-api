@@ -17,20 +17,6 @@ export class PermissionSeeder {
       {
         name: "delete-admin",
       },
-
-      {
-        name: "read-master",
-      },
-      {
-        name: "create-master",
-      },
-      {
-        name: "update-master",
-      },
-      {
-        name: "delete-master",
-      },
-
       {
         name: "read-permission",
       },
@@ -94,9 +80,6 @@ export class PermissionSeeder {
 
       {
         name: "read-admin-log",
-      },
-      {
-        name: "read-master-log",
       },
     ];
     await this.prisma.permission.createMany({

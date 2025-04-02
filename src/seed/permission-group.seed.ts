@@ -15,11 +15,6 @@ export class PermissionGroupSeeder {
         description: "Description",
         type: "LOG",
       },
-      {
-        name: "Master Access",
-        description: "Description",
-        type: "MASTER",
-      },
     ];
     await this.prisma.permissionGroup.createMany({
       data: permissionGroups,

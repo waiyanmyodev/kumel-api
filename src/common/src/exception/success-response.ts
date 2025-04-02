@@ -25,18 +25,6 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
     status: "SUCCESS_DELETE_ROLE",
     message: "Role deleted successfully",
   },
-  SUCCESS_CREATE_MASTER: {
-    status: "SUCCESS_CREATE_MASTER",
-    message: "Master created successfully",
-  },
-  SUCCESS_UPDATE_MASTER: {
-    status: "SUCCESS_UPDATE_MASTER",
-    message: "Updated successfully",
-  },
-  SUCCESS_DELETE_MASTER: {
-    status: "SUCCESS_DELETE_MASTER",
-    message: "Master deleted successfully",
-  },
   SUCCESS_CREATE_PERMISSION: {
     status: "SUCCESS_CREATE_PERMISSION",
     message: "Permission created successfully",

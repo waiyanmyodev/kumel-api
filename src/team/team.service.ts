@@ -88,21 +88,4 @@ export class TeamService {
       throw new FailDeleteTeamException();
     }
   }
-
-  private async relatedUserList(user: MasterDto | AgentDto) {
-    const relatedList = [];
-    if (user.type == "Master") {
-      relatedList.push(user.id);
-      (user as MasterDto).agents.forEach((agent) => relatedList.push(agent.id));
-    }
-    if (user.type == "Agent") {
-      const master = await this.prisma.master.findFirst({
-        where: { masterCode: (user as AgentDto).masterCode },
-        include: { agents: true },
-      });
-      relatedList.push(master.id);
-      master.agents.forEach((agent) => relatedList.push(agent.id));
-    }
-    return relatedList;
-  }
 }

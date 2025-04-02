@@ -10,7 +10,7 @@ export class AdminService {
   async assginPermissionGroup(assginPermissionDto: AssginPermissionGroupDto) {
     try {
       const { userId, permissionGroups } = assginPermissionDto;
-      await this.prisma.master.update({
+      await this.prisma.user.update({
         where: { id: userId },
         data: {
           permissions: {

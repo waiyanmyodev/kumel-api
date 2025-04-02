@@ -111,26 +111,6 @@ export const GENERAL_RESPONSE = {
     status: "INVALID_DOB_DATE",
     message: "Invalid Date Format",
   },
-  FAILED_TO_GET_MASTERS: {
-    status: "FAILED_TO_GET_MASTERS",
-    message: "Failed get masters!",
-  },
-  FAILED_CREATE_MASTER: {
-    status: "FAILED_CREATE_MASTER",
-    message: "Account create failed",
-  },
-  FAILED_UPDATE_MASTER: {
-    status: "FAILED_UPDATE_MASTER",
-    message: "Update failed",
-  },
-  MASTER_NOT_FOUND: {
-    status: "MASTER_NOT_FOUND",
-    message: "Master account not found",
-  },
-  FAILED_DELETE_MASTER: {
-    status: "FAILED_DELETE_MASTER",
-    message: "Delete failed",
-  },
   FAILED_CREATE_PERMISSION: {
     status: "FAILED_CREATE_PERMISSION",
     message: "Permission create failed",
@@ -305,35 +285,6 @@ export class InvalidFullnameException extends BadRequestException {
 export class InvalidDateFormatException extends BadRequestException {
   constructor() {
     super(GENERAL_RESPONSE.INVALID_DOB_DATE);
-  }
-}
-
-export class FailCreateMasterException extends BadRequestException {
-  constructor() {
-    super(GENERAL_RESPONSE.FAILED_CREATE_MASTER);
-  }
-}
-
-export class MasterNotFoundException extends NotFoundException {
-  constructor() {
-    super(GENERAL_RESPONSE.MASTER_NOT_FOUND);
-  }
-}
-export class FailedToGetMasterByDateExpection extends BadRequestException {
-  constructor() {
-    super(GENERAL_RESPONSE.FAILED_TO_GET_MASTERS);
-  }
-}
-
-export class FailUpdateMasterException extends BadRequestException {
-  constructor() {
-    super(GENERAL_RESPONSE.FAILED_UPDATE_MASTER);
-  }
-}
-
-export class FailDeleteMasterException extends BadRequestException {
-  constructor() {
-    super(GENERAL_RESPONSE.FAILED_DELETE_MASTER);
   }
 }
 

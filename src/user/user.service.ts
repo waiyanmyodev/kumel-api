@@ -4,7 +4,7 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { GeneralResponseMessageType } from "src/common/src/exception/general-type";
 import { PrismaService } from "src/prisma/prisma.service";
 import { User } from "@prisma/client";
-import { hash } from 'bcrypt';
+import { hash } from "bcrypt";
 import {
   FailCreateUserException,
   FailDeleteUserException,
@@ -25,17 +25,19 @@ export class UserService {
     }
   }
 
-  async create(createMasterDto: CreateUserDto): Promise<GeneralResponseMessageType> {
+  async create(
+    createUserDto: CreateUserDto
+  ): Promise<GeneralResponseMessageType> {
     try {
-      const hashedPassword = await hash(createMasterDto.password, 10); 
-      
+      const hashedPassword = await hash(createUserDto.password, 10);
+
       await this.prisma.user.create({
         data: {
-          ...createMasterDto,  
-          password: hashedPassword,  
+          ...createUserDto,
+          password: hashedPassword,
         },
       });
-  
+
       return SUCCESS_RESPONSE.SUCCESS_CREATE_USER;
     } catch (error) {
       throw new FailCreateUserException();
@@ -54,12 +56,12 @@ export class UserService {
 
   async update(
     id: number,
-    updateMasterDto: UpdateUserDto
+    updateUserDto: UpdateUserDto
   ): Promise<GeneralResponseMessageType> {
     try {
       await this.prisma.user.update({
         where: { id: Number(id) },
-        data: updateMasterDto,
+        data: updateUserDto,
       });
       return SUCCESS_RESPONSE.SUCCESS_UPDATE_USER;
     } catch (error) {
