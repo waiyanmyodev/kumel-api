@@ -1,15 +1,17 @@
-import { Module } from '@nestjs/common';
+import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerBehindProxyGuard } from './common/src/guards/throttler-behind-proxy.guard';
+import { ThrottlerModule } from "@nestjs/throttler";
+import { APP_GUARD } from "@nestjs/core";
+import { ThrottlerBehindProxyGuard } from "./common/src/guards/throttler-behind-proxy.guard";
 import { AdminModule } from "./admin/admin.module";
-import { MasterModule } from './master/master.module';
+import { MasterModule } from "./master/master.module";
 import { PermissionModule } from "./authorization/permission/permission.module";
 import { PermissionGroupModule } from "./authorization/permission-group/permission-group.module";
-import { AgentModule } from './agent/agent.module';
-import { TeamModule } from './team/team.module';
-import { UserModule } from './user/user.module';
+import { AgentModule } from "./agent/agent.module";
+import { TeamModule } from "./team/team.module";
+import { UserModule } from "./user/user.module";
+import { CityModule } from "./city/city.module";
+import { TownshipModule } from "./township/township.module";
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { UserModule } from './user/user.module';
     AgentModule,
     TeamModule,
     UserModule,
+    CityModule,
+    TownshipModule,
   ],
   controllers: [],
   providers: [
