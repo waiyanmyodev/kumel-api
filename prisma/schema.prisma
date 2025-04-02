@@ -80,6 +80,8 @@ model City {
   name String
 
   Township Township[]
+
+  RequestHelp RequestHelp[]
 }
 
 model Township {
@@ -88,4 +90,37 @@ model Township {
   cityId Int
   city   City   @relation(fields: [cityId], references: [id])
   Team   Team[]
+
+  RequestHelp RequestHelp[]
+}
+
+model RequestHelp {
+  id         Int                 @id @default(autoincrement())
+  cityId     Int
+  townshipId Int
+  location   String
+  status     RequestHelpStatus   @default(pending)
+  priority   RequestHelpPriority @default(low)
+  image      String?
+  note       String
+  adminReply String              @map("admin_reply") @db.LongText
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @default(now())
+
+  City     City     @relation(fields: [cityId], references: [id])
+  Township Township @relation(fields: [townshipId], references: [id])
+
+  @@index([townshipId, cityId, priority, status])
+}
+
+enum RequestHelpStatus {
+  pending
+  accepted
+  rejected
+}
+
+enum RequestHelpPriority {
+  high
+  medium
+  low
 }

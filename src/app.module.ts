@@ -13,6 +13,7 @@ import { TownshipModule } from "./township/township.module";
 import { EventsGateway } from "./events/events.gateway";
 import { UserAuthService } from "./user/auth.service";
 import { PrismaModule } from "./prisma/prisma.module";
+import { RequestHelpModule } from './request-help/request-help.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PrismaModule } from "./prisma/prisma.module";
     UserModule,
     CityModule,
     TownshipModule,
+    RequestHelpModule,
   ],
   controllers: [],
   providers: [
