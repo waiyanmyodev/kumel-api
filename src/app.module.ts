@@ -12,7 +12,9 @@ import { TeamModule } from "./team/team.module";
 import { UserModule } from "./user/user.module";
 import { CityModule } from "./city/city.module";
 import { TownshipModule } from "./township/township.module";
-import { EventsGateway } from './events/events.gateway';
+import { EventsGateway } from "./events/events.gateway";
+import { UserAuthService } from "./user/auth.service";
+import { PrismaModule } from "./prisma/prisma.module";
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { EventsGateway } from './events/events.gateway';
         limit: 60,
       },
     ]),
+    PrismaModule,
     AdminModule,
     MasterModule,
     PermissionModule,
@@ -41,6 +44,7 @@ import { EventsGateway } from './events/events.gateway';
     },
     ConfigService,
     EventsGateway,
+    UserAuthService,
   ],
 })
 export class AppModule {}
