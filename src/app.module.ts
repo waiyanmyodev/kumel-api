@@ -18,6 +18,7 @@ import { FileService } from "./file/file.service";
 import { FileModule } from "./file/file.module";
 import { RequestHelpModule } from "./request-help/request-help.module";
 import { ArticleModule } from "./article/article.module";
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ArticleModule } from "./article/article.module";
     TownshipModule,
     FileModule,
     RequestHelpModule,
+    PostModule,
   ],
   controllers: [FileController],
   providers: [
