@@ -61,4 +61,16 @@ export const SUCCESS_RESPONSE: GeneralResponseType = {
     status: "SUCCESS_DELETE_USER",
     message: "User deleted successfully",
   },
+  SUCCESS_CREATE_REQUEST_HELP: {
+    status: "SUCCESS_CREATE_REQUEST_HELP",
+    message: "Request help created successfully",
+  },
+  SUCCESS_UPDATE_REQUEST_HELP: {
+    status: "SUCCESS_UPDATE_REQUEST_HELP",
+    message: "Updated successfully",
+  },
+  SUCCESS_DELETE_REQUEST_HELP: {
+    status: "SUCCESS_DELETE_REQUEST_HELP",
+    message: "Request help deleted successfully",
+  },
 };

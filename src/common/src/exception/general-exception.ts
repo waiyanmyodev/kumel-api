@@ -159,6 +159,22 @@ export const GENERAL_RESPONSE = {
     status: "TEAM_NOT_FOUND",
     message: "Team not found",
   },
+  FAILED_CREATE_REQUEST_HELP: {
+    status: "FAILED_CREATE_REQUEST_HELP",
+    message: "Request help creation failed",
+  },
+  FAILED_UPDATE_REQUEST_HELP: {
+    status: "FAILED_UPDATE_REQUEST_HELP",
+    message: "Update failed",
+  },
+  REQUEST_HELP_NOT_FOUND: {
+    status: "REQUEST_HELP_NOT_FOUND",
+    message: "Request help not found",
+  },
+  FAILED_DELETE_REQUEST_HELP: {
+    status: "FAILED_DELETE_REQUEST_HELP",
+    message: "Delete failed",
+  },
   FAILED_DELETE_TEAM: {
     status: "FAILED_DELETE_TEAM",
     message: "Delete failed",
@@ -385,5 +401,27 @@ export class FailUpdateUserException extends BadRequestException {
 export class FailDeleteUserException extends BadRequestException {
   constructor() {
     super(GENERAL_RESPONSE.FAILED_DELETE_USER);
+  }
+}
+
+export class FailCreateRequestHelpException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_CREATE_REQUEST_HELP);
+  }
+}
+export class FailToFindRequestHelpException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.REQUEST_HELP_NOT_FOUND);
+  }
+}
+export class FailUpdateRequestHelpException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_UPDATE_REQUEST_HELP);
+  }
+}
+
+export class FailDeleteRequestHelpException extends BadRequestException {
+  constructor() {
+    super(GENERAL_RESPONSE.FAILED_DELETE_REQUEST_HELP);
   }
 }
