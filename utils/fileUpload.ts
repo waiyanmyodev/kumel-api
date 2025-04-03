@@ -1,17 +1,34 @@
 import { BadRequestException } from "@nestjs/common";
 import { diskStorage } from "multer";
 import { extname } from "path";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { v4 as uuidv4 } from "uuid";
+import * as fs from "fs";
+import * as path from "path";
+import { S3Client } from "@aws-sdk/client-s3";
 import sharp from "sharp";
-export const uploadToLocal = {
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import axios from "axios";
+
+export const uploadToLocal = () => ({
   storage: diskStorage({
-    destination: "./uploads",
+    destination: (req, file, cb) => {
+      const type = req.params.type; // Dynamically get type from request params
+
+      if (!type) {
+        return cb(new BadRequestException("Missing type parameter"), null);
+      }
+
+      const uploadPath = path.join(__dirname, `../../uploads/${type}`);
+
+      // Ensure the directory exists
+      fs.mkdirSync(uploadPath, { recursive: true });
+
+      cb(null, uploadPath);
+    },
     filename: (req, file, cb) => {
-      const randomName = Array(32)
-        .fill(null)
-        .map(() => Math.round(Math.random() * 16).toString(16))
-        .join("");
-      return cb(null, `${randomName}${extname(file.originalname)}`);
+      const fileExt = extname(file.originalname);
+      const fileName = `${uuidv4()}${fileExt}`;
+      cb(null, fileName);
     },
   }),
   fileFilter: (
@@ -27,6 +44,31 @@ export const uploadToLocal = {
   limits: {
     fileSize: 5 * 1024 * 1024,
   },
+});
+
+/**
+ * Check if a local image file exists
+ * @param filePath - The local file path
+ * @returns boolean - True if file exists, false otherwise
+ */
+export const checkLocalImageExists = (filePath: string): boolean => {
+  const normalizedPath = path.resolve(filePath.trim());
+  console.log("Checking file:", normalizedPath);
+  return fs.existsSync(normalizedPath);
+};
+
+/**
+ * Check if a remote image URL exists
+ * @param imageUrl - The URL of the image
+ * @returns Promise<boolean> - True if image exists, false otherwise
+ */
+export const checkImageExists = async (imageUrl: string): Promise<boolean> => {
+  try {
+    const response = await axios.head(imageUrl);
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
 };
 
 export const uploadToS3 = async (
