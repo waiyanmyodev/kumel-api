@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserLoginDto } from "./dto/user-login.dto";
@@ -15,6 +16,11 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { UserAuthService } from "./auth.service";
 import { Public } from "src/common/src/decorator/pubic.decorator";
 import { Response } from "express";
+import { UserJwtAuthGuard } from "src/common/src/guards/user-jwt-auth.guard";
+import { User } from "src/common/src/decorator/current-user.decorator";
+import { UserType } from "./type/user.type";
+import { UserDto } from "./dto/user.dto";
+import { plainToClass } from "class-transformer";
 
 @Controller("user")
 export class UserController {
@@ -30,6 +36,12 @@ export class UserController {
     @Res({ passthrough: true }) response: Response
   ) {
     return this.userAuthService.login(userLoginDto, response);
+  }
+
+  @UseGuards(UserJwtAuthGuard)
+  @Get("profile")
+  profile(@User() user: UserType) {
+    return plainToClass(UserDto, user);
   }
 
   @Post()
