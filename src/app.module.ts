@@ -13,6 +13,9 @@ import { TownshipModule } from "./township/township.module";
 import { EventsGateway } from "./events/events.gateway";
 import { UserAuthService } from "./user/auth.service";
 import { PrismaModule } from "./prisma/prisma.module";
+import { FileController } from './file/file.controller';
+import { FileService } from './file/file.service';
+import { FileModule } from './file/file.module';
 import { RequestHelpModule } from './request-help/request-help.module';
 
 @Module({
@@ -32,9 +35,10 @@ import { RequestHelpModule } from './request-help/request-help.module';
     UserModule,
     CityModule,
     TownshipModule,
+    FileModule,
     RequestHelpModule,
   ],
-  controllers: [],
+  controllers: [FileController],
   providers: [
     {
       provide: APP_GUARD,
@@ -43,6 +47,7 @@ import { RequestHelpModule } from './request-help/request-help.module';
     ConfigService,
     EventsGateway,
     UserAuthService,
+    FileService,
   ],
 })
 export class AppModule {}
