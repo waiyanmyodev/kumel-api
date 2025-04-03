@@ -73,6 +73,8 @@ model Team {
   townshipId Int
   township   Township? @relation(fields: [townshipId], references: [id])
   User       User[]
+
+  Article Article[]
 }
 
 model City {
@@ -123,4 +125,16 @@ enum RequestHelpPriority {
   high
   medium
   low
+}
+
+model Article {
+  id           Int      @id @default(autoincrement())
+  teamId       Int
+  team         Team     @relation(fields: [teamId], references: [id])
+  content      String   @db.LongText
+  images       String
+  type         String
+  is_confirmed Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
