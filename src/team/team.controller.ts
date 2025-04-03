@@ -16,7 +16,8 @@ import { AuthUserTypeDto } from "src/common/src/dto/user-type.dto";
 import { CreateTeamDto } from "./dto/create-team.dto";
 import { ApiBody, ApiConsumes, ApiOperation } from "@nestjs/swagger";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { uploadToLocal } from "src/utils/fileUpload";
+import { uploadToLocal } from "utils/fileUpload";
+
 @Controller("team")
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
@@ -43,7 +44,7 @@ export class TeamController {
       },
     },
   })
-  @UseInterceptors(FileInterceptor("file", uploadToLocal))
+  @UseInterceptors(FileInterceptor("file", uploadToLocal()))
   create(
     @User() user: AuthUserTypeDto,
     @UploadedFile() file: Express.Multer.File,
@@ -96,7 +97,7 @@ export class TeamController {
       },
     },
   })
-  @UseInterceptors(FileInterceptor("file", uploadToLocal))
+  @UseInterceptors(FileInterceptor("file", uploadToLocal()))
   update(
     @Param("id") id: string,
     @Body() updateTeamDto: UpdateTeamDto,
