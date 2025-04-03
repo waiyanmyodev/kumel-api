@@ -13,10 +13,11 @@ import { TownshipModule } from "./township/township.module";
 import { EventsGateway } from "./events/events.gateway";
 import { UserAuthService } from "./user/auth.service";
 import { PrismaModule } from "./prisma/prisma.module";
-import { FileController } from './file/file.controller';
-import { FileService } from './file/file.service';
-import { FileModule } from './file/file.module';
-import { RequestHelpModule } from './request-help/request-help.module';
+import { FileController } from "./file/file.controller";
+import { FileService } from "./file/file.service";
+import { FileModule } from "./file/file.module";
+import { RequestHelpModule } from "./request-help/request-help.module";
+import { ArticleModule } from "./article/article.module";
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { RequestHelpModule } from './request-help/request-help.module';
     TeamModule,
     UserModule,
     CityModule,
+    ArticleModule,
     TownshipModule,
     FileModule,
     RequestHelpModule,
