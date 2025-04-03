@@ -7,6 +7,7 @@ import * as path from "path";
 import { S3Client } from "@aws-sdk/client-s3";
 import sharp from "sharp";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
+import axios from "axios";
 
 export const uploadToLocal = () => ({
   storage: diskStorage({
@@ -44,6 +45,31 @@ export const uploadToLocal = () => ({
     fileSize: 5 * 1024 * 1024,
   },
 });
+
+/**
+ * Check if a local image file exists
+ * @param filePath - The local file path
+ * @returns boolean - True if file exists, false otherwise
+ */
+export const checkLocalImageExists = (filePath: string): boolean => {
+  const normalizedPath = path.resolve(filePath.trim());
+  console.log("Checking file:", normalizedPath);
+  return fs.existsSync(normalizedPath);
+};
+
+/**
+ * Check if a remote image URL exists
+ * @param imageUrl - The URL of the image
+ * @returns Promise<boolean> - True if image exists, false otherwise
+ */
+export const checkImageExists = async (imageUrl: string): Promise<boolean> => {
+  try {
+    const response = await axios.head(imageUrl);
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+};
 
 export const uploadToS3 = async (
   fileBuffer: Buffer,
