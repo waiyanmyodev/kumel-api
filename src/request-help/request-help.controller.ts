@@ -29,7 +29,7 @@ import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 export class RequestHelpController {
   constructor(private readonly requestHelpService: RequestHelpService) {}
 
-  @Post()
+  @Post(":type")
   @ApiBearerAuth()
   @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "Create a new request help entry" })
@@ -38,7 +38,8 @@ export class RequestHelpController {
   @UseInterceptors(FileInterceptor("file", uploadToLocal()))
   create(
     @Body() createRequestHelpDto: CreateRequestHelpDto,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File,
+    // @Param("type") type: string
   ) {
     const requestHelpData = {
       ...createRequestHelpDto,
@@ -61,7 +62,7 @@ export class RequestHelpController {
     return this.requestHelpService.findOne(Number(id));
   }
 
-  @Patch(":id")
+  @Patch(":id/:type")
   @ApiBearerAuth()
   @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "Update a request help entry" })
@@ -71,7 +72,8 @@ export class RequestHelpController {
   update(
     @Param("id") id: string,
     @Body() updateRequestHelpDto: UpdateRequestHelpDto,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File,
+    // @Param("type") type: string
   ) {
     const updateData = {
       ...updateRequestHelpDto,

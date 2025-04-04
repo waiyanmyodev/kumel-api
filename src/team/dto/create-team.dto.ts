@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateTeamDto {
   @IsString()
@@ -13,14 +13,27 @@ export class CreateTeamDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({
+    example: "contact@info.com",
+    description: "Team Contact",
+  })
+  contact: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
     example: "1",
     description: "Township id.",
   })
   townshipId: string;
+
+    @ApiProperty({ type: 'string', format: 'binary', required: false })
+    @IsOptional()
+    file?: Express.Multer.File;
 }
 
 export class TeamDto {
   name: string;
   townshipId: string;
   imgPath: string;
+  contact: string;
 }
