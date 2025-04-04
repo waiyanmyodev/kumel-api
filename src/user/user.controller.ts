@@ -21,9 +21,10 @@ import { User } from "src/common/src/decorator/current-user.decorator";
 import { UserType } from "./type/user.type";
 import { UserDto } from "./dto/user.dto";
 import { plainToClass } from "class-transformer";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 
+@ApiBearerAuth()
 @ApiTags("Users")
 @UseGuards(AdminJwtAuthGuard)
 @Controller("user")
