@@ -8,10 +8,22 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
-  app.enableCors();
+  app.enableCors({
+    allowedHeaders: "Authorization, Content-Type",
+    exposedHeaders: "Authorization",
+    credentials: true,
+  });
   const config = new DocumentBuilder()
     .setTitle("API Documentation")
     .setDescription("The API description")
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        in: 'header',
+      },
+    )
     .setVersion("1.0")
     .build();
   const document = SwaggerModule.createDocument(app, config);
