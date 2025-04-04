@@ -21,7 +21,9 @@ import { User } from "src/common/src/decorator/current-user.decorator";
 import { UserType } from "./type/user.type";
 import { UserDto } from "./dto/user.dto";
 import { plainToClass } from "class-transformer";
+import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 
+@UseGuards(AdminJwtAuthGuard)
 @Controller("user")
 export class UserController {
   constructor(
