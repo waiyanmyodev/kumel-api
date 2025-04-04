@@ -8,18 +8,21 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from "@nestjs/common";
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiConsumes,
+  ApiBearerAuth,
 } from "@nestjs/swagger";
 import { RequestHelpService } from "./request-help.service";
 import { CreateRequestHelpDto } from "./dto/create-request-help.dto";
 import { UpdateRequestHelpDto } from "./dto/update-request-help.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { uploadToLocal } from "utils/fileUpload";
+import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 
 @ApiTags("Request Help")
 @Controller("request-help")
@@ -27,6 +30,8 @@ export class RequestHelpController {
   constructor(private readonly requestHelpService: RequestHelpService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "Create a new request help entry" })
   @ApiConsumes("multipart/form-data")
   @ApiResponse({ status: 201, description: "Successfully created." })
@@ -57,6 +62,8 @@ export class RequestHelpController {
   }
 
   @Patch(":id")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "Update a request help entry" })
   @ApiConsumes("multipart/form-data")
   @ApiResponse({ status: 200, description: "Successfully updated." })
@@ -74,6 +81,8 @@ export class RequestHelpController {
   }
 
   @Delete(":id")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "Delete a request help entry" })
   @ApiResponse({ status: 200, description: "Successfully deleted." })
   remove(@Param("id") id: string) {

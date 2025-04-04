@@ -5,10 +5,13 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { GeneralResponseMessageType } from "src/common/src/exception/general-type";
 import { Post } from "@prisma/client";
 import { SUCCESS_RESPONSE } from "src/common/src/exception/success-response";
+import { BasePaginationQueryDto } from "src/common/src/dto/base-pagination-query.dto";
+import { PaginationService } from "src/common/src/helper/pagination.service";
+import PaginateType from "src/common/src/entities/paginate-type";
 
 @Injectable()
 export class PostService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly paginationService: PaginationService) {}
 
   async create(
     createPostDto: CreatePostDto
@@ -41,18 +44,30 @@ export class PostService {
 
       return SUCCESS_RESPONSE.SUCCESS_CREATE_POST;
     } catch (error) {
+      console.log('the error: ', error)
       throw new InternalServerErrorException("Error creating post");
     }
   }
 
-  async findAll(): Promise<GeneralResponseMessageType | Post[]> {
+  async findAll(baseQuery: BasePaginationQueryDto): Promise<GeneralResponseMessageType | PaginateType<Post>> {
     try {
-      return await this.prisma.post.findMany({
-        include: {
-          user: true,
-        },
-      });
+      const searchColumns = ['location', 'content', 'items'];
+      const result = await this.paginationService.paginate<Post>(
+        baseQuery,
+        this.prisma.post,
+        searchColumns,
+        {
+          user: {
+            select: {
+              id: true,
+              username: true,
+            },
+          }
+        }
+      )
+      return result;
     } catch (error) {
+      console.log("error : ", error)
       throw new InternalServerErrorException("Error fetching posts");
     }
   }

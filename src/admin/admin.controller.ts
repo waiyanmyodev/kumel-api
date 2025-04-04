@@ -9,7 +9,9 @@ import { AdminType } from "./type/admin.type";
 import { AdminDto } from "./dto/admin.dto";
 import { plainToClass } from "class-transformer";
 import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Admin')
 @Controller("admin")
 export class AdminController {
   constructor(
@@ -26,6 +28,7 @@ export class AdminController {
     return this.adminAuthService.login(adminLoginDto, response);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AdminJwtAuthGuard)
   @Get("profile")
   profile(@User() user: AdminType) {

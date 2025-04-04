@@ -21,7 +21,10 @@ import { User } from "src/common/src/decorator/current-user.decorator";
 import { UserType } from "./type/user.type";
 import { UserDto } from "./dto/user.dto";
 import { plainToClass } from "class-transformer";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 
+@ApiTags("Users")
 @Controller("user")
 export class UserController {
   constructor(
@@ -50,21 +53,29 @@ export class UserController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   findAll() {
     return this.userService.findAll();
   }
 
   @Get(":id")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   findOne(@Param("id") id: string) {
     return this.userService.findOne(+id);
   }
 
   @Patch(":id")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(":id")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   remove(@Param("id") id: string) {
     return this.userService.remove(+id);
   }
