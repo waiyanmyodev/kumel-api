@@ -8,21 +8,26 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from "@nestjs/common";
 import { TeamService } from "./team.service";
 import { UpdateTeamDto } from "./dto/update-team.dto";
 import { User } from "src/common/src/decorator/current-user.decorator";
 import { AuthUserTypeDto } from "src/common/src/dto/user-type.dto";
 import { CreateTeamDto } from "./dto/create-team.dto";
-import { ApiBody, ApiConsumes, ApiOperation } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { uploadToLocal } from "utils/fileUpload";
+import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
 
+@ApiTags("Team")
 @Controller("team")
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post("/")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "create a team" })
   @ApiConsumes("multipart/form-data")
   @ApiBody({
@@ -76,6 +81,8 @@ export class TeamController {
   }
 
   @Patch(":id")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "update a team" })
   @ApiConsumes("multipart/form-data")
   @ApiBody({
@@ -113,6 +120,8 @@ export class TeamController {
   }
 
   @Delete(":id")
+  @ApiBearerAuth()
+  @UseGuards(AdminJwtAuthGuard)
   remove(@Param("id") id: string) {
     return this.teamService.remove(+id);
   }
