@@ -70,6 +70,7 @@ model Team {
   id      Int    @id @default(autoincrement())
   name    String
   imgPath String
+  contact String
 
   townshipId Int
   township   Township? @relation(fields: [townshipId], references: [id])
