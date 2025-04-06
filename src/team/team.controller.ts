@@ -15,7 +15,7 @@ import { UpdateTeamDto } from "./dto/update-team.dto";
 import { User } from "src/common/src/decorator/current-user.decorator";
 import { AuthUserTypeDto } from "src/common/src/dto/user-type.dto";
 import { CreateTeamDto } from "./dto/create-team.dto";
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { uploadToLocal } from "utils/fileUpload";
 import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
@@ -30,30 +30,12 @@ export class TeamController {
   @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "create a team" })
   @ApiConsumes("multipart/form-data")
-  @ApiBody({
-    schema: {
-      type: "object",
-      properties: {
-        file: {
-          type: "string",
-          format: "binary",
-        },
-        name: {
-          type: "string",
-          example: "team A",
-        },
-        townshipId: {
-          type: "string",
-          example: 1,
-        },
-      },
-    },
-  })
   @UseInterceptors(FileInterceptor("file", uploadToLocal()))
   create(
     @User() user: AuthUserTypeDto,
     @UploadedFile() file: Express.Multer.File,
-    @Body() createTeamDto: CreateTeamDto
+    @Body() createTeamDto: CreateTeamDto,
+    // @Param("type") type: string
   ) {
     const teamData = {
       ...createTeamDto,
@@ -80,35 +62,17 @@ export class TeamController {
     return this.teamService.findOne(user, +id);
   }
 
-  @Patch(":id")
+  @Patch(":id/:type")
   @ApiBearerAuth()
   @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "update a team" })
   @ApiConsumes("multipart/form-data")
-  @ApiBody({
-    schema: {
-      type: "object",
-      properties: {
-        file: {
-          type: "string",
-          format: "binary",
-        },
-        name: {
-          type: "string",
-          example: "updated team A",
-        },
-        townshipId: {
-          type: "string",
-          example: 2,
-        },
-      },
-    },
-  })
   @UseInterceptors(FileInterceptor("file", uploadToLocal()))
   update(
     @Param("id") id: string,
     @Body() updateTeamDto: UpdateTeamDto,
-    @UploadedFile() file: Express.Multer.File
+    @UploadedFile() file: Express.Multer.File,
+    // @Param("type") type: string
     //@User() user: MasterDto | AgentDto
   ) {
     const updateData = {
