@@ -24,10 +24,10 @@ export class FileController {
     @Param("type") type: string,
     @Body() body: FileDto
   ) {
+    console.log(body);
     return {
       message: "File uploaded successfully",
       filePath: `uploads/${type}/${file.filename}`,
-      fileName: body.file.originalname,
     };
   }
 
