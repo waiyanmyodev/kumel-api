@@ -44,7 +44,6 @@ export class PostService {
 
       return SUCCESS_RESPONSE.SUCCESS_CREATE_POST;
     } catch (error) {
-      console.log('the error: ', error)
       throw new InternalServerErrorException("Error creating post");
     }
   }
@@ -67,7 +66,6 @@ export class PostService {
       )
       return result;
     } catch (error) {
-      console.log("error : ", error)
       throw new InternalServerErrorException("Error fetching posts");
     }
   }

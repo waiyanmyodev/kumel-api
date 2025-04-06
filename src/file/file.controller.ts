@@ -6,22 +6,28 @@ import {
   Param,
   Get,
   Query,
-  BadRequestException
+  BadRequestException,
+  Body
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { uploadToLocal, checkImageExists, checkLocalImageExists } from "../../utils/fileUpload";
+import { ApiConsumes } from "@nestjs/swagger";
+import { FileDto } from "./file.dto";
 
 @Controller("upload")
 export class FileController {
   @Post(":type")
+  @ApiConsumes("multipart/form-data")
   @UseInterceptors(FileInterceptor("file", uploadToLocal()))
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
-    @Param("type") type: string
+    @Param("type") type: string,
+    @Body() body: FileDto
   ) {
     return {
       message: "File uploaded successfully",
       filePath: `uploads/${type}/${file.filename}`,
+      fileName: body.file.originalname,
     };
   }
 
