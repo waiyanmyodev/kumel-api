@@ -37,9 +37,14 @@ export class CreateRequestHelpDto {
   @IsString()
   note?: string;
 
-  @ApiProperty({ type: 'string', format: 'binary', required: false })
+  @IsString()
   @IsOptional()
-  file?: Express.Multer.File;
+  @ApiProperty({
+    example: "uploaded.jpg",
+    description: "The updated image URL of the request help.",
+    required: false,
+  })
+  image?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()

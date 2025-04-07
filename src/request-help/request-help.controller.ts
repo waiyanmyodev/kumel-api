@@ -37,17 +37,11 @@ export class RequestHelpController {
   @ApiOperation({ summary: "Create a new request help entry" })
   @ApiConsumes("multipart/form-data")
   @ApiResponse({ status: 201, description: "Successfully created." })
-  @UseInterceptors(FileInterceptor("file", uploadToLocal()))
   create(
     @Body() createRequestHelpDto: CreateRequestHelpDto,
-    @UploadedFile() file: Express.Multer.File,
-    // @Param("type") type: string
   ) {
-    const requestHelpData = {
-      ...createRequestHelpDto,
-      image: file.path,
-    };
-    return this.requestHelpService.create(requestHelpData);
+
+    return this.requestHelpService.create(createRequestHelpDto);
   }
 
   @Get()
