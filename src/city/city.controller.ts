@@ -13,6 +13,7 @@ import { CityService } from "./city.service";
 import { CityDto } from "./dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
+import { Public } from "src/common/src/decorator/pubic.decorator";
 
 @ApiTags("City")
 @ApiBearerAuth()
@@ -26,6 +27,7 @@ export class CityController {
     return this.cityService.create(createCityDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.cityService.findAll();

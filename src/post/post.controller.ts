@@ -15,6 +15,7 @@ import { UpdatePostDto } from "./dto/update-post.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { BasePaginationQueryDto } from "src/common/src/dto/base-pagination-query.dto";
 import { UserJwtAuthGuard } from "src/common/src/guards/user-jwt-auth.guard";
+import { Public } from "src/common/src/decorator/pubic.decorator";
 
 @ApiTags("Posts")
 @ApiBearerAuth()
@@ -28,6 +29,7 @@ export class PostController {
     return this.postService.create(createPostDto);
   }
 
+  @Public()
   @Get()
   findAll(@Query() baseQuery: BasePaginationQueryDto) {
     return this.postService.findAll(baseQuery);

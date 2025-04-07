@@ -23,15 +23,17 @@ import { UpdateRequestHelpDto } from "./dto/update-request-help.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { uploadToLocal } from "utils/fileUpload";
 import { AdminJwtAuthGuard } from "src/common/src/guards/admin-jwt-auth.guard";
+import { Public } from "src/common/src/decorator/pubic.decorator";
 
+@ApiBearerAuth()
+@UseGuards(AdminJwtAuthGuard)
 @ApiTags("Request Help")
 @Controller("request-help")
 export class RequestHelpController {
   constructor(private readonly requestHelpService: RequestHelpService) {}
 
+  @Public()
   @Post(":type")
-  @ApiBearerAuth()
-  @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "Create a new request help entry" })
   @ApiConsumes("multipart/form-data")
   @ApiResponse({ status: 201, description: "Successfully created." })
