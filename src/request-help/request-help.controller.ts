@@ -33,14 +33,12 @@ export class RequestHelpController {
   constructor(private readonly requestHelpService: RequestHelpService) {}
 
   @Public()
-  @Post(":type")
+  @Post()
   @ApiOperation({ summary: "Create a new request help entry" })
-  @ApiConsumes("multipart/form-data")
   @ApiResponse({ status: 201, description: "Successfully created." })
   create(
     @Body() createRequestHelpDto: CreateRequestHelpDto,
   ) {
-
     return this.requestHelpService.create(createRequestHelpDto);
   }
 
