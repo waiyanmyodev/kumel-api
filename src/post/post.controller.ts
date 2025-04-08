@@ -35,6 +35,7 @@ export class PostController {
     return this.postService.findAll(baseQuery);
   }
 
+  @Public()
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.postService.findOne(+id);
